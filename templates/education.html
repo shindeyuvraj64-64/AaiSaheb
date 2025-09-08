@@ -42,7 +42,7 @@
                     </div>
                     <div class="col-md-3">
                         <div class="progress-stat">
-                            <div class="stat-number text-info">{{ (user_progress.values() | selectattr('completed', 'equalto', true) | list | length / modules | length * 100) | round | int }}%</div>
+                            <div class="stat-number text-info">{{ (user_progress.values() | selectattr('completed', 'equalto', true) | list | length / (modules | length if modules | length > 0 else 1) * 100) | round | int }}%</div>
                             <div class="stat-label">Overall Progress</div>
                         </div>
                     </div>

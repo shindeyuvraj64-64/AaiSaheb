@@ -67,13 +67,12 @@ def activate_sos():
         data = request.get_json()
         
         # Create SOS alert
-        alert = SOSAlert(
-            user_id=current_user.id,
-            latitude=data.get('latitude'),
-            longitude=data.get('longitude'),
-            address=data.get('address'),
-            notes=data.get('notes', 'Emergency SOS activated')
-        )
+        alert = SOSAlert()
+        alert.user_id = current_user.id
+        alert.latitude = data.get('latitude')
+        alert.longitude = data.get('longitude')
+        alert.address = data.get('address')
+        alert.notes = data.get('notes', 'Emergency SOS activated')
         
         db.session.add(alert)
         db.session.commit()
@@ -152,7 +151,9 @@ def education_module(module_id):
     # Get or create user progress
     progress = UserProgress.query.filter_by(user_id=current_user.id, module_id=module_id).first()
     if not progress:
-        progress = UserProgress(user_id=current_user.id, module_id=module_id)
+        progress = UserProgress()
+        progress.user_id = current_user.id
+        progress.module_id = module_id
         db.session.add(progress)
         db.session.commit()
     
@@ -250,14 +251,13 @@ def new_community_post():
         category = request.form.get('category')
         is_anonymous = 'anonymous' in request.form
         
-        post = CommunityPost(
-            user_id=current_user.id,
-            title=title,
-            content=content,
-            category=category,
-            is_anonymous=is_anonymous,
-            is_approved=True  # Auto-approve for now
-        )
+        post = CommunityPost()
+        post.user_id = current_user.id
+        post.title = title
+        post.content = content
+        post.category = category
+        post.is_anonymous = is_anonymous
+        post.is_approved = True  # Auto-approve for now
         
         db.session.add(post)
         db.session.commit()
@@ -297,13 +297,12 @@ def add_emergency_contact():
     if is_primary:
         EmergencyContact.query.filter_by(user_id=current_user.id).update({'is_primary': False})
     
-    contact = EmergencyContact(
-        user_id=current_user.id,
-        name=name,
-        phone=phone,
-        relationship=relationship,
-        is_primary=is_primary
-    )
+    contact = EmergencyContact()
+    contact.user_id = current_user.id
+    contact.name = name
+    contact.phone = phone
+    contact.relationship = relationship
+    contact.is_primary = is_primary
     
     db.session.add(contact)
     db.session.commit()

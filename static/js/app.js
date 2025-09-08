@@ -641,6 +641,9 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeAccessibility();
 });
 
+// Make showNotification globally available
+window.showNotification = showNotification;
+
 // Export global functions
 window.aaiSaheb = {
     showNotification,
