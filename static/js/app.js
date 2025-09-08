@@ -1,5 +1,47 @@
 // aai Saheb - Main Application JavaScript
 
+// Define showNotification function first to ensure global availability
+function showNotification(message, type = 'info', duration = 5000) {
+    const notification = document.createElement('div');
+    notification.className = `alert alert-${type === 'error' ? 'danger' : type === 'success' ? 'success' : type === 'warning' ? 'warning' : 'info'} notification-toast`;
+    notification.innerHTML = `
+        <div class="d-flex align-items-center">
+            <i class="fas fa-${type === 'error' ? 'exclamation-circle' : type === 'success' ? 'check-circle' : type === 'warning' ? 'exclamation-triangle' : 'info-circle'} me-2"></i>
+            <span>${message}</span>
+            <button type="button" class="btn-close ms-auto" onclick="this.parentElement.parentElement.remove()"></button>
+        </div>
+    `;
+    
+    // Add to page
+    const container = document.getElementById('notification-container') || createNotificationContainer();
+    container.appendChild(notification);
+    
+    // Auto-remove after duration
+    setTimeout(() => {
+        if (notification.parentNode) {
+            notification.remove();
+        }
+    }, duration);
+}
+
+// Create notification container if needed
+function createNotificationContainer() {
+    const container = document.createElement('div');
+    container.id = 'notification-container';
+    container.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 9999;
+        max-width: 400px;
+    `;
+    document.body.appendChild(container);
+    return container;
+}
+
+// Make showNotification globally available immediately
+window.showNotification = showNotification;
+
 // Initialize application when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
     initializeApp();
