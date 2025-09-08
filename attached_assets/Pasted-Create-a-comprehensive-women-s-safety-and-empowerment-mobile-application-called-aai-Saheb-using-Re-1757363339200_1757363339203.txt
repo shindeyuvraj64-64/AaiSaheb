@@ -1,0 +1,200 @@
+Create a comprehensive women's safety and empowerment mobile application called "aai Saheb" using React Native with Expo for hybrid Android/iOS deployment. Use Replit Auth for authentication and PostgreSQL database for all data storage.
+
+## Core Application Overview
+Build a full-stack mobile-first application addressing women's safety, empowerment, education, employment, and civic engagement in Maharashtra, India. The app should serve as both a safety tool and a platform for women's development while supporting political campaign impact measurement.
+
+## Technical Implementation Requirements
+
+### Mobile Framework & Deployment
+- Use React Native with Expo template for cross-platform mobile app
+- Ensure compatibility with Expo Go for real device testing
+- Implement responsive design optimized for Android devices (primary target)
+- Support both portrait and landscape orientations
+- Configure for deployment on Google Play Store and Apple App Store
+
+### Authentication & User Management
+- Implement Replit Auth with email/social login options
+- Create user profiles with fields: name, age, district (Maharashtra), contact details, preferred language
+- Support role-based access: Regular User, Volunteer Responder, Community Moderator, Admin
+- Enable biometric unlock for returning users where supported by device
+- Include consent management for all sensitive permissions and data processing
+
+### Database Architecture (PostgreSQL via Neon)
+Design comprehensive database schema with these main entities:
+- Users (profiles, preferences, emergency contacts)
+- SOSAlerts (active incidents, location data, evidence files)
+- SafetyResources (police stations, hospitals, NGOs, helplines)
+- EducationalContent (courses, modules, quizzes, certificates)
+- EmploymentOpportunities (jobs, internships, skill requirements)
+- GovernmentSchemes (eligibility rules, application processes, documents)
+- CommunityPosts (forums, discussions, support groups)
+- AdminDashboard (impact metrics, user analytics)
+
+### Multilingual Support
+- Primary languages: Marathi (default for Maharashtra), Hindi, English
+- Implement i18n for all UI text, form labels, error messages, and content
+- Support language switching throughout the app
+- Include text-to-speech capability for educational content in all three languages
+
+## Feature Modules Implementation
+
+### 1. Safety & SOS Module
+**Emergency SOS System:**
+- Large, prominent circular SOS button on home screen and floating on other screens
+- One-tap activation with 3-second grace period and safe word cancellation
+- Multiple trigger options: screen tap, phone shake detection, voice command
+- Real-time location sharing with encrypted transmission to trusted contacts
+- Automatic capture: front/back camera recording, voice recording with user permission
+- Evidence storage: encrypted local storage with cloud backup, chain of custody features
+
+**Safety Resources:**
+- Interactive map showing nearby: police stations, hospitals, women help centers, NGOs
+- Emergency helplines: 112, 1091 (Women Helpline), 181 (Women in Distress)
+- Safety tips and self-defense tutorials
+- Unsafe area reporting with anonymous geolocation data
+- Travel safety: route sharing, check-in reminders, emergency route deviation alerts
+
+### 2. Education & Skill Development
+**Course Management System:**
+- Digital literacy, financial literacy, legal rights awareness, health education
+- Interactive modules with video lessons, downloadable PDFs, audio narration
+- Progress tracking, completion certificates, skill assessments
+- Offline content availability for areas with poor connectivity
+- Scholarship alerts and application guidance
+
+**Legal Awareness:**
+- Know Your Rights section covering domestic violence, workplace harassment, property rights
+- Legal aid contact information and consultation booking
+- Document templates for legal proceedings
+- Supreme Court and Maharashtra High Court judgment summaries relevant to women's rights
+
+### 3. Employment & Entrepreneurship
+**Job Portal Integration:**
+- Government job notifications (MPSC, Central Government, Maharashtra State jobs)
+- Private sector opportunities with women-friendly workplace certifications
+- Remote work opportunities and freelancing guidance
+- Application tracking and interview preparation resources
+- Resume builder with multilingual templates
+
+**Entrepreneurship Support:**
+- Business plan templates and guides
+- Microfinance and loan information (MUDRA, Stand-Up India, Maharashtra schemes)
+- SHG (Self Help Group) directory and joining procedures
+- Mentor matching system for business guidance
+- Success story showcases of women entrepreneurs from Maharashtra
+
+### 4. Government Schemes & Benefits
+**Comprehensive Scheme Database:**
+- Central Government schemes: Beti Bachao Beti Padhao, Pradhan Mantri Matru Vandana Yojana
+- Maharashtra State schemes: Majhi Kanya Bhagyashree, Kishori Shakti Yojana
+- District-wise specific benefits and implementation details
+- Eligibility calculator with step-by-step questionnaire
+- Application status tracking and document checklist
+- Notification system for new schemes and application deadlines
+
+### 5. Community & Support Network
+**Discussion Forums:**
+- Topic-based discussion boards: Safety Tips, Career Guidance, Health, Legal Help
+- Anonymous posting options for sensitive topics
+- Moderation system with community guidelines
+- Expert Q&A sessions with scheduled interactions
+- Local community events and meetup organization
+
+**Support Groups:**
+- Survivor support groups with counselor access
+- Peer mentorship programs
+- Mental health resources and helpline integration
+- Crisis counseling appointment booking
+
+### 6. Health & Wellness
+**Healthcare Access:**
+- Nearby healthcare facilities with women-specific services
+- Telemedicine consultation booking
+- Reproductive health education and menstrual health tracking
+- Mental health resources and counseling services
+- Health scheme information (Ayushman Bharat, state health programs)
+
+### 7. Impact Dashboard & Analytics
+**Campaign Impact Measurement:**
+- District-wise user engagement metrics
+- Safety incident response statistics
+- Education module completion rates
+- Employment opportunity utilization
+- Scheme awareness and application statistics
+- Anonymized aggregate data for policy recommendations
+
+## User Experience & Design Requirements
+
+### Mobile-First Design Principles
+- Clean, intuitive interface suitable for all literacy levels
+- Large touch targets and accessibility compliance
+- High contrast color scheme with customizable themes
+- Voice navigation and screen reader support
+- Consistent navigation patterns with bottom tab navigation
+
+### Performance Optimization
+- Offline functionality for critical features (emergency contacts, safety resources)
+- Progressive loading for content-heavy sections
+- Image optimization and caching for slower network conditions
+- Background sync for data when connectivity is restored
+
+### Security & Privacy Implementation
+- End-to-end encryption for all sensitive communications
+- Local encrypted storage for personal data and evidence
+- Granular privacy controls with transparent consent
+- GDPR and DPDP Act 2023 compliance for Indian users
+- Anonymous usage analytics with no personal data collection
+
+## Integration Requirements
+
+### Third-Party Integrations
+- Google Maps API for location services and navigation
+- SMS gateway integration for emergency alerts
+- Push notification services for alerts and updates
+- File upload and storage for evidence and documents
+- Social media sharing for awareness campaigns
+
+### Government API Integration
+- Integration with DigiLocker for document verification
+- Aadhaar verification for scheme applications where required
+- Direct links to government portals for application submissions
+- Real-time status updates from government databases where available
+
+## Advanced Features
+
+### AI-Powered Features
+- Chatbot for instant help and guidance in all three languages
+- Risk assessment based on location and reported incidents
+- Personalized content recommendations based on user interests
+- Automated scheme eligibility matching
+
+### Gamification Elements
+- Achievement badges for course completions and safety actions
+- Leaderboards for educational progress (optional, privacy-respecting)
+- Daily safety tips and challenges
+- Community recognition for helpful contributions
+
+## Testing & Quality Assurance
+- Comprehensive testing on various Android device specifications
+- Network condition testing (2G/3G/4G/WiFi scenarios)
+- Emergency flow testing with simulated scenarios
+- Multilingual content verification by native speakers
+- Accessibility testing with screen readers and high contrast modes
+- Load testing for concurrent SOS alerts and database performance
+
+## Deployment & Maintenance
+- Staged rollout starting with select Maharashtra districts
+- Continuous monitoring of app performance and user feedback
+- Regular security audits and penetration testing
+- Content management system for updating schemes and resources
+- Version control for feature updates and bug fixes
+
+## Success Metrics
+- Active user base across Maharashtra districts
+- Emergency response time improvement
+- Educational course completion rates
+- Employment opportunity applications and placements
+- Government scheme awareness and application success rates
+- Community engagement and support network growth
+
+Build this application with production-ready standards, ensuring scalability, security, and cultural sensitivity for Maharashtra's diverse women population. The app should feel trustworthy, empowering, and easy to use for women of all backgrounds and education levels.

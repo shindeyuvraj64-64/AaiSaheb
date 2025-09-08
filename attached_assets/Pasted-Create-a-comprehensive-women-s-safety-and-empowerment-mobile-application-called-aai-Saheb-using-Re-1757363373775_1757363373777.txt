@@ -1,0 +1,150 @@
+Create a comprehensive women's safety and empowerment mobile application called "aai Saheb" using React Native with Expo for hybrid Android/iOS deployment. Use Replit Auth for authentication and PostgreSQL database for all data storage.
+
+## Design System & UI Requirements
+
+### Modern Luxurious Design Language
+- **Color Palette**: Deep indigo primary (#3F51B5), saffron accent (#FF9800), warm white (#FAFAFA), soft gray (#F5F5F5)
+- **Typography**: Noto Sans Devanagari for Marathi, Roboto for English/Hindi, with luxury font weights (300, 400, 600)
+- **UI Components**: Material Design 3 with custom luxury touches - subtle gradients, elegant shadows, rounded corners (16px radius)
+- **Animations**: Smooth micro-interactions, page transitions (300ms ease curves), floating action button scaling, ripple effects
+- **Layout**: Generous white space, card-based design, minimal flat icons, premium glass-morphism effects
+- **Accessibility**: High contrast ratios (4.5:1 minimum), large touch targets (48dp), smooth haptic feedback
+
+### Premium User Experience
+- **Navigation**: Bottom tab navigation with custom icons, smooth tab transitions
+- **Loading States**: Elegant skeleton screens, progressive image loading with blur-up effect
+- **Empty States**: Beautiful illustrations with encouraging copy in user's preferred language
+- **Success States**: Celebratory animations for achievements and completions
+- **Error Handling**: Friendly, non-technical error messages with recovery suggestions
+
+## Real Maharashtra Data Integration
+
+### Geographic Data (All 36 Districts)
+**Complete District Coverage:**
+- **Konkan Division**: Mumbai City, Mumbai Suburban, Thane, Palghar, Raigad, Ratnagiri, Sindhudurg
+- **Pune Division**: Pune, Solapur, Satara, Kolhapur, Sangli
+- **Nashik Division**: Nashik, Dhule, Nandurbar, Jalgaon, Ahmednagar
+- **Aurangabad Division**: Aurangabad, Jalna, Beed, Hingoli, Parbhani, Nanded, Latur, Osmanabad
+- **Amravati Division**: Amravati, Akola, Washim, Buldhana, Yavatmal
+- **Nagpur Division**: Nagpur, Wardha, Bhandara, Gondia, Chandrapur, Gadchiroli
+
+### Real Safety Infrastructure Data
+**Police Stations & Emergency Services:**
+- All Maharashtra Police station locations with exact addresses and contact numbers
+- Women Police Stations in major cities: Mumbai (Bandra, Worli), Pune (Pune City, Pimpri), Nashik, Aurangabad
+- Tourist Helpline numbers: Mumbai (022-22621855), Pune (020-26126867)
+- District-wise emergency contact numbers (100, 101, 102, 108, 112, 1091, 181)
+
+**Healthcare Facilities:**
+- Government hospitals: JJ Hospital Mumbai, Sassoon Hospital Pune, GMCH Aurangabad
+- Women-specific health centers and maternity hospitals in each district
+- Primary Health Centers (PHC) and Community Health Centers (CHC) with GPS coordinates
+- Specialized centers: AIIMS Nagpur, Tata Memorial Hospital Mumbai, KEM Hospital Mumbai
+
+**NGOs & Support Organizations:**
+- Snehalaya (Ahmednagar), Apnalaya (Mumbai), Mahila Sarvangeen Utkarsh Mandal (MASUM)
+- Women's helpline centers, One Stop Centers (OSC) locations in all districts
+- Legal aid societies and women lawyers' associations contact details
+
+### Government Schemes with Real Data
+**Maharashtra State Schemes:**
+- **Majhi Kanya Bhagyashree Yojana**: ₹50,000 for girl child, eligibility criteria, application process
+- **Kishori Shakti Yojana**: Adolescent girls 11-18 years, nutrition and education support
+- **Asmita Scheme**: Financial assistance for inter-caste marriages
+- **Sanjay Gandhi Niradhar Yojana**: Monthly assistance for destitute women
+- **Maharashtra Handicapped Welfare Department Schemes**: Disability certificates, equipment, employment
+
+**Central Government Schemes:**
+- **Beti Bachao Beti Padhao**: Implementation status in Maharashtra districts
+- **Pradhan Mantri Matru Vandana Yojana**: ₹5,000 for pregnant/lactating women
+- **Stand-Up India**: Loans ₹10 lakh to ₹1 crore for women entrepreneurs
+- **Mudra Yojana**: Shishu (up to ₹50,000), Kishor (₹50,000-₹5 lakh), Tarun (₹5-10 lakh)
+
+### Real Employment & Education Data
+**Government Job Portals Integration:**
+- Maharashtra Public Service Commission (MPSC) notifications and results
+- Maharashtra State Electricity Board (MSEB) recruitment
+- Maharashtra Pollution Control Board jobs
+- Central Railway, Western Railway job notifications for Maharashtra stations
+- District Collector offices, Zilla Panchayat job openings
+
+**Educational Institutions Database:**
+- University of Mumbai, University of Pune, Nagpur University, Aurangabad University
+- Government ITIs and polytechnics in each district with course details
+- Skill development centers under Maharashtra State Skill Development Society
+- Women's colleges and hostels with admission procedures and scholarship information
+
+**Real Entrepreneurship Data:**
+- Maharashtra Industrial Development Corporation (MIDC) support programs
+- District Industries Centers (DIC) contact information for all 36 districts
+- Maharashtra State Financial Corporation loan schemes
+- Success stories of women entrepreneurs from Maharashtra with real case studies
+
+### Cultural & Regional Integration
+**Language Support with Real Content:**
+- Marathi content written by native speakers from Maharashtra
+- Regional dialects consideration (Konkani in coastal areas, Marathwadi in Marathwada)
+- Festival calendar integration: Ganesh Chaturthi, Gudi Padwa, Navratri celebrations
+- Traditional craft and skill documentation: Paithani weaving, Warli art, Bidriware
+
+**Local Context Integration:**
+- Mumbai local train safety tips and women's compartment information
+- Pune traffic rules and safe zones mapping
+- Rural area specific challenges and solutions for Marathwada and Vidarbha regions
+- Tribal area considerations for Gadchiroli and Nandurbar districts
+
+## Advanced Real Data Features
+
+### Live Government Integration
+- Real-time integration with Maharashtra government APIs where available
+- Aadhaar-based authentication for scheme applications
+- Integration with DigiLocker for document verification
+- Direct links to Maharashtra government portals: mahajobs.gov.in, mahatransco.in
+
+### Smart Recommendations Engine
+- Location-based recommendations using real GPS coordinates
+- Scheme recommendations based on user's district, age, income, education
+- Job recommendations matching skills with real employer requirements in Maharashtra
+- Safety route recommendations using real crime data and safe zones
+
+### Live Data Updates
+- Real-time government scheme updates from official websites
+- Live job postings from Maharashtra employment exchanges
+- Current safety alerts and advisories from Maharashtra Police
+- Live educational scholarship and exam notifications
+
+## Premium Feature Implementation
+
+### AI-Powered Assistance
+- Multilingual chatbot trained on Maharashtra government policies
+- Voice recognition in Marathi, Hindi, and English
+- Smart form filling with OCR for government documents
+- Predictive text in Devanagari script for Marathi users
+
+### Advanced Security Features
+- Blockchain-based certificate verification for educational achievements
+- Biometric authentication integration with Aadhaar
+- End-to-end encryption for all sensitive communications
+- Digital signature support for official applications
+
+### Social Impact Features
+- Impact tracking dashboard showing real outcomes in Maharashtra
+- Community success stories with verifiable data
+- District-wise progress reports on women empowerment metrics
+- Integration with Maharashtra Women Development Corporation data
+
+## Technical Excellence
+
+### Performance Optimization
+- CDN implementation for faster loading across Maharashtra (Mumbai, Pune, Nagpur servers)
+- Offline data storage for all critical information
+- Progressive Web App (PWA) capabilities for low-end devices
+- Optimized for 2G/3G networks common in rural Maharashtra
+
+### Scalability Architecture
+- Microservices architecture supporting millions of Maharashtra women users
+- Load balancing for high traffic during exam notifications and scheme launches
+- Real-time sync with government databases
+- Automated data validation and verification systems
+
+Build this application as a flagship product that showcases the best of modern mobile app design while serving the real needs of Maharashtra's women population. Every feature should use authentic Maharashtra data and reflect the cultural richness and diversity of the state. The design should feel premium and trustworthy, suitable for both urban professionals in Mumbai/Pune and rural women in remote villages.
