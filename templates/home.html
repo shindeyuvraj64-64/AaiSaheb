@@ -1,0 +1,219 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - aai Saheb{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Welcome Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="welcome-card">
+                <div class="d-flex align-items-center">
+                    {% if current_user.profile_image_url %}
+                        <img src="{{ current_user.profile_image_url }}" alt="Profile" class="profile-img-lg me-3">
+                    {% else %}
+                        <div class="profile-placeholder me-3">
+                            <i class="fas fa-user"></i>
+                        </div>
+                    {% endif %}
+                    <div>
+                        <h2 class="mb-1">नमस्कार, {{ current_user.first_name or 'User' }}!</h2>
+                        <p class="text-muted mb-0">Welcome back to aai Saheb</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row g-4 mb-4">
+        <div class="col-12">
+            <h3 class="section-title">Quick Actions</h3>
+        </div>
+        
+        <div class="col-md-6 col-lg-3">
+            <a href="{{ url_for('sos') }}" class="quick-action-card emergency">
+                <div class="quick-action-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h4>Emergency SOS</h4>
+                <p>Quick access to emergency services</p>
+            </a>
+        </div>
+        
+        <div class="col-md-6 col-lg-3">
+            <a href="{{ url_for('safety_resources') }}" class="quick-action-card safety">
+                <div class="quick-action-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h4>Safety Resources</h4>
+                <p>Find nearby help centers</p>
+            </a>
+        </div>
+        
+        <div class="col-md-6 col-lg-3">
+            <a href="{{ url_for('education') }}" class="quick-action-card education">
+                <div class="quick-action-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <h4>Learn & Grow</h4>
+                <p>Educational modules</p>
+            </a>
+        </div>
+        
+        <div class="col-md-6 col-lg-3">
+            <a href="{{ url_for('community') }}" class="quick-action-card community">
+                <div class="quick-action-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h4>Community</h4>
+                <p>Connect with others</p>
+            </a>
+        </div>
+    </div>
+
+    <!-- Dashboard Stats -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-4">
+            <div class="stat-card">
+                <div class="stat-icon bg-success">
+                    <i class="fas fa-book-open"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>{{ completed_modules }}</h3>
+                    <p>Modules Completed</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="stat-card">
+                <div class="stat-icon bg-primary">
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>{{ safety_resources|length }}</h3>
+                    <p>Nearby Resources</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="stat-card">
+                <div class="stat-icon bg-warning">
+                    <i class="fas fa-exclamation-circle"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>{{ recent_alerts|length }}</h3>
+                    <p>Recent Alerts</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="content-card">
+                <h4 class="card-title">
+                    <i class="fas fa-clock text-primary"></i>
+                    Recent Activity
+                </h4>
+                
+                {% if recent_alerts %}
+                    <div class="activity-list">
+                        {% for alert in recent_alerts %}
+                        <div class="activity-item">
+                            <div class="activity-icon bg-{{ 'success' if alert.status == 'resolved' else 'warning' if alert.status == 'cancelled' else 'danger' }}">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h6>SOS Alert {{ alert.status.title() }}</h6>
+                                <p class="text-muted">{{ alert.created_at.strftime('%B %d, %Y at %I:%M %p') }}</p>
+                                {% if alert.address %}
+                                <small class="text-muted">Location: {{ alert.address }}</small>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="empty-state">
+                        <i class="fas fa-clock text-muted"></i>
+                        <p>No recent activity</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="col-lg-4">
+            <div class="content-card">
+                <h4 class="card-title">
+                    <i class="fas fa-shield-alt text-success"></i>
+                    Nearby Safety Resources
+                </h4>
+                
+                {% if safety_resources %}
+                    <div class="resource-list">
+                        {% for resource in safety_resources %}
+                        <div class="resource-item">
+                            <div class="resource-icon">
+                                <i class="fas fa-{{ 'shield-alt' if resource.type == 'police_station' else 'hospital-alt' if resource.type == 'hospital' else 'hands-helping' }}"></i>
+                            </div>
+                            <div class="resource-content">
+                                <h6>{{ resource.name }}</h6>
+                                <p class="text-muted small">{{ resource.type.replace('_', ' ').title() }}</p>
+                                {% if resource.phone %}
+                                <small class="text-primary">
+                                    <i class="fas fa-phone"></i> {{ resource.phone }}
+                                </small>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="text-center mt-3">
+                        <a href="{{ url_for('safety_resources') }}" class="btn btn-outline-primary btn-sm">
+                            View All Resources
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="empty-state">
+                        <i class="fas fa-map-marker-alt text-muted"></i>
+                        <p>Update your district in profile to see nearby resources</p>
+                        <a href="{{ url_for('profile') }}" class="btn btn-primary btn-sm">Update Profile</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Helpful Tips -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="tips-card">
+                <h4>
+                    <i class="fas fa-lightbulb text-warning"></i>
+                    Daily Safety Tip
+                </h4>
+                <p class="tip-content">
+                    Always inform a trusted contact about your travel plans and expected arrival time. 
+                    Share your live location when traveling alone, especially during late hours.
+                </p>
+                <small class="text-muted">
+                    <i class="fas fa-info-circle"></i>
+                    Tip of the day - Stay safe, stay connected
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Floating SOS Button -->
+<div class="floating-sos">
+    <a href="{{ url_for('sos') }}" class="btn btn-danger btn-floating">
+        <i class="fas fa-exclamation-triangle"></i>
+        <span class="floating-text">SOS</span>
+    </a>
+</div>
+{% endblock %}

@@ -1,0 +1,280 @@
+{% extends "base.html" %}
+
+{% block title %}Education & Learning - aai Saheb{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="page-header">
+                <h1>
+                    <i class="fas fa-graduation-cap text-success"></i>
+                    Education & Skill Development
+                </h1>
+                <p class="lead">Empower yourself with knowledge and skills for personal and professional growth</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Progress Overview -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="progress-overview-card">
+                <div class="row g-4">
+                    <div class="col-md-3">
+                        <div class="progress-stat">
+                            <div class="stat-number text-success">{{ user_progress.values() | selectattr('completed', 'equalto', true) | list | length }}</div>
+                            <div class="stat-label">Completed</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="progress-stat">
+                            <div class="stat-number text-warning">{{ user_progress.values() | rejectattr('completed', 'equalto', true) | selectattr('progress_percentage', 'greaterthan', 0) | list | length }}</div>
+                            <div class="stat-label">In Progress</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="progress-stat">
+                            <div class="stat-number text-primary">{{ modules | length }}</div>
+                            <div class="stat-label">Total Modules</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="progress-stat">
+                            <div class="stat-number text-info">{{ (user_progress.values() | selectattr('completed', 'equalto', true) | list | length / modules | length * 100) | round | int }}%</div>
+                            <div class="stat-label">Overall Progress</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Module Categories -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="category-filter">
+                <button class="category-btn active" data-category="all">
+                    <i class="fas fa-th-large"></i> All Modules
+                </button>
+                <button class="category-btn" data-category="digital_literacy">
+                    <i class="fas fa-laptop"></i> Digital Literacy
+                </button>
+                <button class="category-btn" data-category="financial_literacy">
+                    <i class="fas fa-money-bill-wave"></i> Financial Literacy
+                </button>
+                <button class="category-btn" data-category="legal_rights">
+                    <i class="fas fa-gavel"></i> Legal Rights
+                </button>
+                <button class="category-btn" data-category="health_education">
+                    <i class="fas fa-heartbeat"></i> Health Education
+                </button>
+                <button class="category-btn" data-category="skill_development">
+                    <i class="fas fa-tools"></i> Skill Development
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modules Grid -->
+    <div class="row" id="modulesGrid">
+        {% for module in modules %}
+        <div class="col-lg-6 col-xl-4 mb-4 module-card-container" data-category="{{ module.category }}">
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-category-badge bg-{{ 'primary' if module.category == 'digital_literacy' else 'success' if module.category == 'financial_literacy' else 'warning' if module.category == 'legal_rights' else 'info' if module.category == 'health_education' else 'secondary' }}">
+                        <i class="fas fa-{{ 'laptop' if module.category == 'digital_literacy' else 'money-bill-wave' if module.category == 'financial_literacy' else 'gavel' if module.category == 'legal_rights' else 'heartbeat' if module.category == 'health_education' else 'tools' }}"></i>
+                    </div>
+                    
+                    {% set progress = user_progress.get(module.id) %}
+                    {% if progress and progress.completed %}
+                        <div class="completion-badge">
+                            <i class="fas fa-check-circle text-success"></i>
+                        </div>
+                    {% elif progress and progress.progress_percentage > 0 %}
+                        <div class="progress-badge">
+                            <span class="progress-percentage">{{ progress.progress_percentage }}%</span>
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <div class="module-content">
+                    <h5 class="module-title">{{ get_localized_content(module, 'title') }}</h5>
+                    <p class="module-description">{{ get_localized_content(module, 'description') }}</p>
+                    
+                    <div class="module-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-clock text-muted"></i>
+                            <span>{{ module.duration_minutes }} min</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-tag text-muted"></i>
+                            <span>{{ module.category.replace('_', ' ').title() }}</span>
+                        </div>
+                    </div>
+                    
+                    {% if progress %}
+                        <div class="module-progress">
+                            <div class="progress">
+                                <div class="progress-bar bg-{{ 'success' if progress.completed else 'primary' }}" 
+                                     style="width: {{ progress.progress_percentage }}%"></div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <div class="module-actions">
+                    {% if progress and progress.completed %}
+                        <a href="{{ url_for('education_module', module_id=module.id) }}" class="btn btn-outline-success">
+                            <i class="fas fa-check-circle"></i> Completed
+                        </a>
+                        <a href="{{ url_for('education_module', module_id=module.id) }}" class="btn btn-sm btn-outline-primary">
+                            <i class="fas fa-redo"></i> Review
+                        </a>
+                    {% elif progress and progress.progress_percentage > 0 %}
+                        <a href="{{ url_for('education_module', module_id=module.id) }}" class="btn btn-warning">
+                            <i class="fas fa-play"></i> Continue
+                        </a>
+                    {% else %}
+                        <a href="{{ url_for('education_module', module_id=module.id) }}" class="btn btn-primary">
+                            <i class="fas fa-play"></i> Start Learning
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        
+        {% if not modules %}
+        <div class="col-12">
+            <div class="empty-state-card">
+                <div class="empty-state-icon">
+                    <i class="fas fa-book-open text-muted"></i>
+                </div>
+                <h4>No Modules Available</h4>
+                <p class="text-muted">Educational modules are being prepared. Check back soon!</p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Learning Resources -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="content-card">
+                <h4 class="card-title">
+                    <i class="fas fa-lightbulb text-warning"></i>
+                    Additional Learning Resources
+                </h4>
+                
+                <div class="row g-4">
+                    <div class="col-md-6 col-lg-3">
+                        <div class="resource-item">
+                            <div class="resource-icon bg-primary">
+                                <i class="fas fa-video"></i>
+                            </div>
+                            <h6>Video Tutorials</h6>
+                            <p class="small text-muted">Watch engaging video content in Marathi, Hindi, and English</p>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 col-lg-3">
+                        <div class="resource-item">
+                            <div class="resource-icon bg-success">
+                                <i class="fas fa-download"></i>
+                            </div>
+                            <h6>Downloadable PDFs</h6>
+                            <p class="small text-muted">Access content offline with downloadable study materials</p>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 col-lg-3">
+                        <div class="resource-item">
+                            <div class="resource-icon bg-info">
+                                <i class="fas fa-volume-up"></i>
+                            </div>
+                            <h6>Audio Narration</h6>
+                            <p class="small text-muted">Listen to content with text-to-speech in your preferred language</p>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 col-lg-3">
+                        <div class="resource-item">
+                            <div class="resource-icon bg-warning">
+                                <i class="fas fa-certificate"></i>
+                            </div>
+                            <h6>Certificates</h6>
+                            <p class="small text-muted">Earn completion certificates for your achievements</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scholarship Information -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="scholarship-card">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h4>
+                            <i class="fas fa-graduation-cap text-primary"></i>
+                            Scholarship Opportunities
+                        </h4>
+                        <p class="mb-0">Explore various scholarship programs available for women's education and skill development in Maharashtra</p>
+                    </div>
+                    <div class="col-md-4 text-md-end">
+                        <a href="{{ url_for('government_schemes') }}" class="btn btn-primary">
+                            <i class="fas fa-external-link-alt"></i> View Scholarships
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Category filtering
+document.querySelectorAll('.category-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        // Update active state
+        document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        
+        const category = this.dataset.category;
+        
+        // Filter modules
+        document.querySelectorAll('.module-card-container').forEach(container => {
+            if (category === 'all' || container.dataset.category === category) {
+                container.style.display = 'block';
+            } else {
+                container.style.display = 'none';
+            }
+        });
+    });
+});
+
+// Smooth scroll to modules
+function scrollToModules() {
+    document.getElementById('modulesGrid').scrollIntoView({ 
+        behavior: 'smooth' 
+    });
+}
+
+// Module card hover effects
+document.querySelectorAll('.module-card').forEach(card => {
+    card.addEventListener('mouseenter', function() {
+        this.style.transform = 'translateY(-5px)';
+    });
+    
+    card.addEventListener('mouseleave', function() {
+        this.style.transform = 'translateY(0)';
+    });
+});
+</script>
+{% endblock %}

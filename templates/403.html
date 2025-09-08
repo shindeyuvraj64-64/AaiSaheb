@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Access Denied - aai Saheb{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="error-page-card">
+                <div class="error-icon">
+                    <i class="fas fa-lock text-danger"></i>
+                </div>
+                
+                <h1 class="error-code">403</h1>
+                <h2 class="error-title">Access Denied</h2>
+                
+                <p class="error-message">
+                    You don't have permission to access this resource. This might be because:
+                </p>
+                
+                <ul class="error-reasons">
+                    <li>You need to be logged in to access this page</li>
+                    <li>Your account doesn't have the required permissions</li>
+                    <li>The page is restricted to certain user roles</li>
+                    <li>Your session may have expired</li>
+                </ul>
+                
+                <div class="error-actions">
+                    {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('home') }}" class="btn btn-primary">
+                            <i class="fas fa-home"></i> Go to Dashboard
+                        </a>
+                        <a href="{{ url_for('replit_auth.logout') }}" class="btn btn-outline-secondary">
+                            <i class="fas fa-sign-out-alt"></i> Logout & Login Again
+                        </a>
+                    {% else %}
+                        <a href="{{ url_for('replit_auth.login') }}" class="btn btn-primary">
+                            <i class="fas fa-sign-in-alt"></i> Login to Continue
+                        </a>
+                        <a href="{{ url_for('index') }}" class="btn btn-outline-secondary">
+                            <i class="fas fa-home"></i> Go to Homepage
+                        </a>
+                    {% endif %}
+                </div>
+                
+                <div class="error-help">
+                    <p class="text-muted">
+                        <i class="fas fa-question-circle"></i>
+                        Need help? Contact our support team for assistance.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

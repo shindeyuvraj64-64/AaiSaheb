@@ -1,0 +1,494 @@
+{% extends "base.html" %}
+
+{% block title %}{{ get_localized_content(module, 'title') }} - aai Saheb{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Module Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ url_for('education') }}">Education</a></li>
+                    <li class="breadcrumb-item active">{{ get_localized_content(module, 'title') }}</li>
+                </ol>
+            </nav>
+            
+            <div class="module-header-card">
+                <div class="row align-items-center">
+                    <div class="col-lg-8">
+                        <div class="module-category-badge bg-{{ 'primary' if module.category == 'digital_literacy' else 'success' if module.category == 'financial_literacy' else 'warning' if module.category == 'legal_rights' else 'info' if module.category == 'health_education' else 'secondary' }}">
+                            <i class="fas fa-{{ 'laptop' if module.category == 'digital_literacy' else 'money-bill-wave' if module.category == 'financial_literacy' else 'gavel' if module.category == 'legal_rights' else 'heartbeat' if module.category == 'health_education' else 'tools' }}"></i>
+                            {{ module.category.replace('_', ' ').title() }}
+                        </div>
+                        
+                        <h1 class="module-title">{{ get_localized_content(module, 'title') }}</h1>
+                        <p class="module-description">{{ get_localized_content(module, 'description') }}</p>
+                        
+                        <div class="module-meta">
+                            <span class="meta-item">
+                                <i class="fas fa-clock text-muted"></i>
+                                {{ module.duration_minutes }} minutes
+                            </span>
+                            <span class="meta-item">
+                                <i class="fas fa-signal text-muted"></i>
+                                Beginner Level
+                            </span>
+                            <span class="meta-item">
+                                <i class="fas fa-certificate text-muted"></i>
+                                Certificate Available
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4">
+                        <div class="module-progress-card">
+                            <div class="progress-circle">
+                                <svg class="progress-ring" width="120" height="120">
+                                    <circle class="progress-ring-circle" stroke="#e9ecef" stroke-width="8" fill="transparent" r="52" cx="60" cy="60"/>
+                                    <circle class="progress-ring-circle progress-ring-fill" stroke="#28a745" stroke-width="8" fill="transparent" r="52" cx="60" cy="60" 
+                                            style="stroke-dasharray: 326.73; stroke-dashoffset: {{ 326.73 - (326.73 * progress.progress_percentage / 100) if progress else 326.73 }};"/>
+                                </svg>
+                                <div class="progress-text">
+                                    <span class="progress-percentage">{{ progress.progress_percentage if progress else 0 }}%</span>
+                                    <span class="progress-label">Complete</span>
+                                </div>
+                            </div>
+                            
+                            {% if progress and progress.completed %}
+                                <div class="completion-status">
+                                    <i class="fas fa-check-circle text-success"></i>
+                                    <span>Completed on {{ progress.completed_at.strftime('%B %d, %Y') }}</span>
+                                </div>
+                            {% elif progress and progress.progress_percentage > 0 %}
+                                <div class="progress-status">
+                                    <i class="fas fa-play text-warning"></i>
+                                    <span>Continue Learning</span>
+                                </div>
+                            {% else %}
+                                <div class="start-status">
+                                    <i class="fas fa-play text-primary"></i>
+                                    <span>Ready to Start</span>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Main Content -->
+        <div class="col-lg-8">
+            <div class="module-content-card">
+                <!-- Content Navigation -->
+                <div class="content-nav">
+                    <ul class="nav nav-pills" id="contentTabs">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-bs-toggle="pill" href="#overview">
+                                <i class="fas fa-info-circle"></i> Overview
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="pill" href="#content">
+                                <i class="fas fa-book-open"></i> Content
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="pill" href="#resources">
+                                <i class="fas fa-download"></i> Resources
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="pill" href="#quiz">
+                                <i class="fas fa-question-circle"></i> Quiz
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Content Panels -->
+                <div class="tab-content">
+                    <!-- Overview Tab -->
+                    <div class="tab-pane fade show active" id="overview">
+                        <div class="content-section">
+                            <h4>What You'll Learn</h4>
+                            <div class="learning-objectives">
+                                <div class="objective-item">
+                                    <i class="fas fa-check-circle text-success"></i>
+                                    <span>Understanding the fundamentals of {{ module.category.replace('_', ' ').lower() }}</span>
+                                </div>
+                                <div class="objective-item">
+                                    <i class="fas fa-check-circle text-success"></i>
+                                    <span>Practical applications in daily life</span>
+                                </div>
+                                <div class="objective-item">
+                                    <i class="fas fa-check-circle text-success"></i>
+                                    <span>Real-world examples from Maharashtra</span>
+                                </div>
+                                <div class="objective-item">
+                                    <i class="fas fa-check-circle text-success"></i>
+                                    <span>Resources for further learning</span>
+                                </div>
+                            </div>
+                            
+                            <h4 class="mt-4">Module Content</h4>
+                            <div class="content-preview">
+                                {{ get_localized_content(module, 'content')[:500] }}...
+                                
+                                <div class="content-features mt-3">
+                                    <div class="feature-item">
+                                        <i class="fas fa-video text-primary"></i>
+                                        <span>Interactive Video Content</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <i class="fas fa-file-pdf text-danger"></i>
+                                        <span>Downloadable Study Materials</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <i class="fas fa-volume-up text-info"></i>
+                                        <span>Audio Narration Available</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <i class="fas fa-mobile-alt text-success"></i>
+                                        <span>Mobile Friendly</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Content Tab -->
+                    <div class="tab-pane fade" id="content">
+                        <div class="content-section">
+                            <div class="content-controls">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h4>Learning Content</h4>
+                                    <div class="content-actions">
+                                        <button class="btn btn-sm btn-outline-primary" onclick="toggleAudio()">
+                                            <i class="fas fa-volume-up"></i> Audio
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-secondary" onclick="adjustFontSize()">
+                                            <i class="fas fa-text-height"></i> Text Size
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="module-content-text" id="moduleContent">
+                                {{ get_localized_content(module, 'content') | safe }}
+                            </div>
+                            
+                            <div class="content-navigation mt-4">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <button class="btn btn-outline-secondary" disabled>
+                                            <i class="fas fa-arrow-left"></i> Previous Section
+                                        </button>
+                                    </div>
+                                    <div class="col-6 text-end">
+                                        <button class="btn btn-primary" onclick="nextSection()">
+                                            Next Section <i class="fas fa-arrow-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Resources Tab -->
+                    <div class="tab-pane fade" id="resources">
+                        <div class="content-section">
+                            <h4>Additional Resources</h4>
+                            
+                            <div class="resources-grid">
+                                <div class="resource-item">
+                                    <div class="resource-icon">
+                                        <i class="fas fa-file-pdf text-danger"></i>
+                                    </div>
+                                    <div class="resource-content">
+                                        <h6>Study Guide PDF</h6>
+                                        <p class="small text-muted">Comprehensive study material for offline reading</p>
+                                        <button class="btn btn-sm btn-outline-primary" onclick="downloadResource('pdf')">
+                                            <i class="fas fa-download"></i> Download
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="resource-item">
+                                    <div class="resource-icon">
+                                        <i class="fas fa-headphones text-primary"></i>
+                                    </div>
+                                    <div class="resource-content">
+                                        <h6>Audio Version</h6>
+                                        <p class="small text-muted">Listen to the content in your preferred language</p>
+                                        <button class="btn btn-sm btn-outline-primary" onclick="playAudio()">
+                                            <i class="fas fa-play"></i> Play Audio
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="resource-item">
+                                    <div class="resource-icon">
+                                        <i class="fas fa-external-link-alt text-success"></i>
+                                    </div>
+                                    <div class="resource-content">
+                                        <h6>External Links</h6>
+                                        <p class="small text-muted">Useful websites and government portals</p>
+                                        <button class="btn btn-sm btn-outline-primary" onclick="showExternalLinks()">
+                                            <i class="fas fa-link"></i> View Links
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="resource-item">
+                                    <div class="resource-icon">
+                                        <i class="fas fa-phone text-warning"></i>
+                                    </div>
+                                    <div class="resource-content">
+                                        <h6>Help & Support</h6>
+                                        <p class="small text-muted">Contact information for assistance</p>
+                                        <button class="btn btn-sm btn-outline-primary" onclick="showHelpContacts()">
+                                            <i class="fas fa-phone"></i> Get Help
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quiz Tab -->
+                    <div class="tab-pane fade" id="quiz">
+                        <div class="content-section">
+                            <div class="quiz-header">
+                                <h4>Knowledge Assessment</h4>
+                                <p>Test your understanding of the module content</p>
+                            </div>
+                            
+                            <div class="quiz-container" id="quizContainer">
+                                <div class="quiz-question">
+                                    <h5>Question 1 of 5</h5>
+                                    <p class="question-text">What is the main benefit of the skills covered in this module?</p>
+                                    
+                                    <div class="quiz-options">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="q1" id="q1a" value="a">
+                                            <label class="form-check-label" for="q1a">
+                                                Personal empowerment and self-reliance
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="q1" id="q1b" value="b">
+                                            <label class="form-check-label" for="q1b">
+                                                Entertainment purposes only
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="q1" id="q1c" value="c">
+                                            <label class="form-check-label" for="q1c">
+                                                Passing time during leisure
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="q1" id="q1d" value="d">
+                                            <label class="form-check-label" for="q1d">
+                                                None of the above
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="quiz-navigation mt-4">
+                                        <button class="btn btn-primary" onclick="nextQuestion()">
+                                            Next Question <i class="fas fa-arrow-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <!-- Progress Card -->
+            <div class="content-card mb-4">
+                <h5 class="card-title">
+                    <i class="fas fa-chart-line text-success"></i>
+                    Your Progress
+                </h5>
+                
+                <div class="progress-details">
+                    <div class="progress mb-3">
+                        <div class="progress-bar bg-success" style="width: {{ progress.progress_percentage if progress else 0 }}%"></div>
+                    </div>
+                    
+                    <div class="progress-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">Started:</span>
+                            <span class="stat-value">{{ progress.started_at.strftime('%b %d, %Y') if progress else 'Not started' }}</span>
+                        </div>
+                        {% if progress and progress.completed %}
+                        <div class="stat-item">
+                            <span class="stat-label">Completed:</span>
+                            <span class="stat-value">{{ progress.completed_at.strftime('%b %d, %Y') }}</span>
+                        </div>
+                        {% endif %}
+                        <div class="stat-item">
+                            <span class="stat-label">Estimated Time:</span>
+                            <span class="stat-value">{{ module.duration_minutes }} minutes</span>
+                        </div>
+                    </div>
+                </div>
+                
+                {% if not (progress and progress.completed) %}
+                <form method="POST" action="{{ url_for('complete_module', module_id=module.id) }}">
+                    <button type="submit" class="btn btn-success w-100">
+                        <i class="fas fa-check-circle"></i> Mark as Complete
+                    </button>
+                </form>
+                {% else %}
+                <div class="completion-badge">
+                    <i class="fas fa-trophy text-warning"></i>
+                    <span>Module Completed!</span>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Other Modules -->
+            <div class="content-card mb-4">
+                <h5 class="card-title">
+                    <i class="fas fa-layer-group text-primary"></i>
+                    Related Modules
+                </h5>
+                
+                <div class="related-modules">
+                    <!-- Placeholder for related modules -->
+                    <div class="module-item">
+                        <div class="module-icon bg-primary">
+                            <i class="fas fa-laptop"></i>
+                        </div>
+                        <div class="module-info">
+                            <h6>Digital Banking Safety</h6>
+                            <p class="small text-muted">Learn secure online banking practices</p>
+                        </div>
+                    </div>
+                    
+                    <div class="module-item">
+                        <div class="module-icon bg-success">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="module-info">
+                            <h6>Cyber Security Basics</h6>
+                            <p class="small text-muted">Protect yourself online</p>
+                        </div>
+                    </div>
+                    
+                    <div class="module-item">
+                        <div class="module-icon bg-warning">
+                            <i class="fas fa-gavel"></i>
+                        </div>
+                        <div class="module-info">
+                            <h6>Know Your Rights</h6>
+                            <p class="small text-muted">Legal awareness for women</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <a href="{{ url_for('education') }}" class="btn btn-outline-primary btn-sm w-100">
+                    <i class="fas fa-graduation-cap"></i> View All Modules
+                </a>
+            </div>
+
+            <!-- Support -->
+            <div class="content-card">
+                <h5 class="card-title">
+                    <i class="fas fa-question-circle text-info"></i>
+                    Need Help?
+                </h5>
+                
+                <p class="small text-muted">If you have questions about this module or need assistance, we're here to help.</p>
+                
+                <div class="support-actions">
+                    <button class="btn btn-outline-primary btn-sm w-100 mb-2" onclick="askCommunity()">
+                        <i class="fas fa-users"></i> Ask Community
+                    </button>
+                    <button class="btn btn-outline-info btn-sm w-100" onclick="contactSupport()">
+                        <i class="fas fa-headset"></i> Contact Support
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+let currentQuestion = 1;
+let totalQuestions = 5;
+
+function toggleAudio() {
+    alert('Audio narration feature coming soon!');
+}
+
+function adjustFontSize() {
+    const content = document.getElementById('moduleContent');
+    const currentSize = parseInt(window.getComputedStyle(content, null).getPropertyValue('font-size'));
+    const newSize = currentSize === 16 ? 18 : currentSize === 18 ? 20 : 16;
+    content.style.fontSize = newSize + 'px';
+}
+
+function nextSection() {
+    // Switch to quiz tab
+    document.querySelector('[href="#quiz"]').click();
+}
+
+function downloadResource(type) {
+    alert(`${type.toUpperCase()} download feature coming soon!`);
+}
+
+function playAudio() {
+    alert('Audio playback feature coming soon!');
+}
+
+function showExternalLinks() {
+    alert('External links feature coming soon!');
+}
+
+function showHelpContacts() {
+    alert('Help contacts feature coming soon!');
+}
+
+function nextQuestion() {
+    if (currentQuestion < totalQuestions) {
+        currentQuestion++;
+        // Update quiz UI (placeholder)
+        alert(`Moving to question ${currentQuestion} of ${totalQuestions}`);
+    } else {
+        completeQuiz();
+    }
+}
+
+function completeQuiz() {
+    alert('Quiz completed! Great job learning.');
+}
+
+function askCommunity() {
+    window.location.href = "{{ url_for('community') }}";
+}
+
+function contactSupport() {
+    alert('Support chat feature coming soon!');
+}
+
+// Auto-save progress periodically
+setInterval(() => {
+    // Update progress percentage based on scroll position or time spent
+    const scrollPercent = Math.min(100, Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100));
+    console.log('Auto-saving progress:', scrollPercent + '%');
+}, 30000); // Every 30 seconds
+</script>
+{% endblock %}

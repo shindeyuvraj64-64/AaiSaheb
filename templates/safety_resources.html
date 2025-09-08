@@ -1,0 +1,307 @@
+{% extends "base.html" %}
+
+{% block title %}Safety Resources - aai Saheb{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="page-header">
+                <h1>
+                    <i class="fas fa-shield-alt text-primary"></i>
+                    Safety Resources
+                </h1>
+                <p class="lead">Find nearby police stations, hospitals, NGOs, and women help centers across Maharashtra</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="filters-card">
+                <form method="GET" class="row g-3">
+                    <div class="col-md-4">
+                        <label for="type" class="form-label">Resource Type</label>
+                        <select name="type" id="type" class="form-select">
+                            <option value="all" {{ 'selected' if selected_type == 'all' }}>All Types</option>
+                            <option value="police_station" {{ 'selected' if selected_type == 'police_station' }}>Police Stations</option>
+                            <option value="hospital" {{ 'selected' if selected_type == 'hospital' }}>Hospitals</option>
+                            <option value="ngo" {{ 'selected' if selected_type == 'ngo' }}>NGOs</option>
+                            <option value="helpline" {{ 'selected' if selected_type == 'helpline' }}>Helplines</option>
+                        </select>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <label for="district" class="form-label">District</label>
+                        <select name="district" id="district" class="form-select">
+                            <option value="all" {{ 'selected' if selected_district == 'all' }}>All Districts</option>
+                            {% for district in districts %}
+                                <option value="{{ district }}" {{ 'selected' if selected_district == district }}>{{ district }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <label class="form-label">&nbsp;</label>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-search"></i> Filter
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Resources Grid -->
+    <div class="row">
+        {% if resources %}
+            {% for resource in resources %}
+            <div class="col-lg-6 col-xl-4 mb-4">
+                <div class="resource-card">
+                    <div class="resource-header">
+                        <div class="resource-type-badge bg-{{ 'danger' if resource.type == 'police_station' else 'success' if resource.type == 'hospital' else 'primary' if resource.type == 'ngo' else 'warning' }}">
+                            <i class="fas fa-{{ 'shield-alt' if resource.type == 'police_station' else 'hospital-alt' if resource.type == 'hospital' else 'hands-helping' if resource.type == 'ngo' else 'phone' }}"></i>
+                        </div>
+                        <div class="resource-type">
+                            {{ resource.type.replace('_', ' ').title() }}
+                        </div>
+                    </div>
+                    
+                    <div class="resource-content">
+                        <h5 class="resource-name">{{ resource.name }}</h5>
+                        
+                        <div class="resource-details">
+                            <div class="detail-item">
+                                <i class="fas fa-map-marker-alt text-muted"></i>
+                                <span>{{ resource.address }}</span>
+                            </div>
+                            
+                            <div class="detail-item">
+                                <i class="fas fa-map text-muted"></i>
+                                <span>{{ resource.district }}</span>
+                            </div>
+                            
+                            {% if resource.phone %}
+                            <div class="detail-item">
+                                <i class="fas fa-phone text-muted"></i>
+                                <span>{{ resource.phone }}</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="resource-actions">
+                        {% if resource.phone %}
+                        <a href="tel:{{ resource.phone }}" class="btn btn-sm btn-primary">
+                            <i class="fas fa-phone"></i> Call
+                        </a>
+                        {% endif %}
+                        
+                        {% if resource.latitude and resource.longitude %}
+                        <a href="https://www.google.com/maps/dir/?api=1&destination={{ resource.latitude }},{{ resource.longitude }}" 
+                           target="_blank" class="btn btn-sm btn-outline-primary">
+                            <i class="fas fa-directions"></i> Directions
+                        </a>
+                        {% endif %}
+                        
+                        <button class="btn btn-sm btn-outline-secondary" onclick="shareResource('{{ resource.name }}', '{{ resource.address }}', '{{ resource.phone or '' }}')">
+                            <i class="fas fa-share-alt"></i> Share
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="col-12">
+                <div class="empty-state-card">
+                    <div class="empty-state-icon">
+                        <i class="fas fa-search text-muted"></i>
+                    </div>
+                    <h4>No Resources Found</h4>
+                    <p class="text-muted">
+                        No safety resources found matching your criteria. 
+                        Try adjusting the filters or selecting a different district.
+                    </p>
+                    <a href="{{ url_for('safety_resources') }}" class="btn btn-primary">
+                        <i class="fas fa-refresh"></i> Reset Filters
+                    </a>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="quick-actions-card">
+                <h4>
+                    <i class="fas fa-bolt text-warning"></i>
+                    Quick Actions
+                </h4>
+                
+                <div class="row g-3">
+                    <div class="col-md-6 col-lg-3">
+                        <a href="tel:112" class="quick-action-btn emergency">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <span>Emergency 112</span>
+                        </a>
+                    </div>
+                    
+                    <div class="col-md-6 col-lg-3">
+                        <a href="tel:1091" class="quick-action-btn women">
+                            <i class="fas fa-female"></i>
+                            <span>Women Helpline</span>
+                        </a>
+                    </div>
+                    
+                    <div class="col-md-6 col-lg-3">
+                        <a href="tel:181" class="quick-action-btn safety">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Women Safety</span>
+                        </a>
+                    </div>
+                    
+                    <div class="col-md-6 col-lg-3">
+                        <a href="{{ url_for('sos') }}" class="quick-action-btn sos">
+                            <i class="fas fa-sos"></i>
+                            <span>Activate SOS</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Map Section -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="content-card">
+                <h4 class="card-title">
+                    <i class="fas fa-map text-info"></i>
+                    Interactive Map
+                </h4>
+                
+                <div class="map-container">
+                    <div id="resourcesMap" class="resources-map">
+                        <!-- Map will be loaded here -->
+                        <div class="map-placeholder">
+                            <i class="fas fa-map text-muted"></i>
+                            <p>Interactive map showing nearby safety resources</p>
+                            <button class="btn btn-primary" onclick="loadMap()">
+                                <i class="fas fa-map-marker-alt"></i> Load Map
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Share Modal -->
+<div class="modal fade" id="shareModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Share Resource</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="shareContent">
+                    <!-- Share content will be populated here -->
+                </div>
+                <div class="share-options mt-3">
+                    <button class="btn btn-outline-primary btn-sm" onclick="copyToClipboard()">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                    <button class="btn btn-outline-success btn-sm" onclick="shareViaWhatsApp()">
+                        <i class="fab fa-whatsapp"></i> WhatsApp
+                    </button>
+                    <button class="btn btn-outline-info btn-sm" onclick="shareViaSMS()">
+                        <i class="fas fa-sms"></i> SMS
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+let currentShareData = {};
+
+function shareResource(name, address, phone) {
+    currentShareData = { name, address, phone };
+    
+    const shareText = `🛡️ Safety Resource: ${name}\n📍 Address: ${address}${phone ? `\n📞 Phone: ${phone}` : ''}\n\nShared via aai Saheb - Women's Safety Platform`;
+    
+    document.getElementById('shareContent').innerHTML = `
+        <div class="alert alert-light">
+            <strong>${name}</strong><br>
+            <small class="text-muted">${address}</small>
+            ${phone ? `<br><small class="text-muted">${phone}</small>` : ''}
+        </div>
+        <textarea class="form-control" rows="4" readonly>${shareText}</textarea>
+    `;
+    
+    new bootstrap.Modal(document.getElementById('shareModal')).show();
+}
+
+function copyToClipboard() {
+    const textarea = document.querySelector('#shareModal textarea');
+    textarea.select();
+    document.execCommand('copy');
+    
+    // Show success message
+    const btn = event.target;
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+    btn.classList.remove('btn-outline-primary');
+    btn.classList.add('btn-success');
+    
+    setTimeout(() => {
+        btn.innerHTML = originalText;
+        btn.classList.remove('btn-success');
+        btn.classList.add('btn-outline-primary');
+    }, 2000);
+}
+
+function shareViaWhatsApp() {
+    const shareText = encodeURIComponent(document.querySelector('#shareModal textarea').value);
+    window.open(`https://wa.me/?text=${shareText}`, '_blank');
+}
+
+function shareViaSMS() {
+    const shareText = encodeURIComponent(document.querySelector('#shareModal textarea').value);
+    window.open(`sms:?body=${shareText}`, '_blank');
+}
+
+function loadMap() {
+    // Placeholder for map loading functionality
+    document.querySelector('.map-placeholder').innerHTML = `
+        <div class="text-center p-4">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-2">Loading interactive map...</p>
+        </div>
+    `;
+    
+    // Simulate map loading
+    setTimeout(() => {
+        document.querySelector('.map-placeholder').innerHTML = `
+            <div class="text-center p-5 bg-light rounded">
+                <i class="fas fa-map text-primary mb-3" style="font-size: 2rem;"></i>
+                <h5>Interactive Map</h5>
+                <p class="text-muted">Map integration with Google Maps API would be implemented here to show exact locations of safety resources.</p>
+            </div>
+        `;
+    }, 2000);
+}
+</script>
+{% endblock %}

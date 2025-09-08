@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Page Not Found - aai Saheb{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="error-page-card">
+                <div class="error-icon">
+                    <i class="fas fa-search text-warning"></i>
+                </div>
+                
+                <h1 class="error-code">404</h1>
+                <h2 class="error-title">Page Not Found</h2>
+                
+                <p class="error-message">
+                    The page you're looking for doesn't exist or may have been moved. 
+                    Don't worry, it happens to the best of us!
+                </p>
+                
+                <div class="error-suggestions">
+                    <h6>Here's what you can try:</h6>
+                    <ul>
+                        <li>Check the URL for any typos</li>
+                        <li>Go back to the previous page</li>
+                        <li>Visit our homepage and navigate from there</li>
+                        <li>Use the search feature to find what you need</li>
+                    </ul>
+                </div>
+                
+                <div class="error-actions">
+                    <a href="{{ url_for('index') }}" class="btn btn-primary">
+                        <i class="fas fa-home"></i> Go Home
+                    </a>
+                    <button onclick="history.back()" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left"></i> Go Back
+                    </button>
+                    {% if current_user.is_authenticated %}
+                    <a href="{{ url_for('home') }}" class="btn btn-outline-primary">
+                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                    </a>
+                    {% endif %}
+                </div>
+                
+                <div class="popular-links">
+                    <h6>Popular Pages:</h6>
+                    <div class="link-grid">
+                        {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('sos') }}" class="quick-link">
+                            <i class="fas fa-exclamation-triangle"></i> Emergency SOS
+                        </a>
+                        <a href="{{ url_for('safety_resources') }}" class="quick-link">
+                            <i class="fas fa-shield-alt"></i> Safety Resources
+                        </a>
+                        <a href="{{ url_for('education') }}" class="quick-link">
+                            <i class="fas fa-graduation-cap"></i> Education
+                        </a>
+                        <a href="{{ url_for('community') }}" class="quick-link">
+                            <i class="fas fa-users"></i> Community
+                        </a>
+                        {% else %}
+                        <a href="{{ url_for('replit_auth.login') }}" class="quick-link">
+                            <i class="fas fa-sign-in-alt"></i> Login
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}Server Error - aai Saheb{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="error-page-card">
+                <div class="error-icon">
+                    <i class="fas fa-exclamation-triangle text-danger"></i>
+                </div>
+                
+                <h1 class="error-code">500</h1>
+                <h2 class="error-title">Internal Server Error</h2>
+                
+                <p class="error-message">
+                    Something went wrong on our end. We're working to fix this issue as quickly as possible.
+                </p>
+                
+                <div class="error-details">
+                    <div class="alert alert-light">
+                        <h6><i class="fas fa-tools"></i> What we're doing:</h6>
+                        <ul class="mb-0">
+                            <li>Our technical team has been automatically notified</li>
+                            <li>We're investigating the issue</li>
+                            <li>A fix will be deployed as soon as possible</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="error-actions">
+                    <button onclick="location.reload()" class="btn btn-primary">
+                        <i class="fas fa-redo"></i> Try Again
+                    </button>
+                    <a href="{{ url_for('index') }}" class="btn btn-outline-secondary">
+                        <i class="fas fa-home"></i> Go Home
+                    </a>
+                    {% if current_user.is_authenticated %}
+                    <a href="{{ url_for('home') }}" class="btn btn-outline-primary">
+                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                    </a>
+                    {% endif %}
+                </div>
+                
+                <div class="emergency-notice">
+                    <div class="alert alert-warning">
+                        <h6><i class="fas fa-exclamation-triangle"></i> Emergency Services</h6>
+                        <p class="mb-2">If this is an emergency, please contact emergency services directly:</p>
+                        <div class="emergency-numbers">
+                            <a href="tel:112" class="btn btn-danger btn-sm me-2">
+                                <i class="fas fa-phone"></i> Emergency 112
+                            </a>
+                            <a href="tel:1091" class="btn btn-primary btn-sm">
+                                <i class="fas fa-phone"></i> Women Helpline 1091
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="error-help">
+                    <p class="text-muted">
+                        <i class="fas fa-clock"></i>
+                        If the problem persists, please try again in a few minutes or contact our support team.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,477 @@
+{% extends "base.html" %}
+
+{% block title %}Community Forum - aai Saheb{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="page-header">
+                <h1>
+                    <i class="fas fa-users text-primary"></i>
+                    Community Forum
+                </h1>
+                <p class="lead">Connect, share experiences, and support each other in our safe community space</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Community Stats -->
+    <div class="row mb-4">
+        <div class="col-md-3 col-6 mb-3">
+            <div class="stat-card border-primary">
+                <div class="stat-icon bg-primary">
+                    <i class="fas fa-comments"></i>
+                </div>
+                <div class="stat-content">
+                    <h4>{{ posts | length }}</h4>
+                    <p>Active Posts</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 col-6 mb-3">
+            <div class="stat-card border-success">
+                <div class="stat-icon bg-success">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-content">
+                    <h4>500+</h4>
+                    <p>Community Members</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 col-6 mb-3">
+            <div class="stat-card border-warning">
+                <div class="stat-icon bg-warning">
+                    <i class="fas fa-hands-helping"></i>
+                </div>
+                <div class="stat-content">
+                    <h4>24/7</h4>
+                    <p>Support Available</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 col-6 mb-3">
+            <div class="stat-card border-info">
+                <div class="stat-icon bg-info">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="stat-content">
+                    <h4>100%</h4>
+                    <p>Safe & Moderated</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Actions and Filters -->
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <div class="category-filter">
+                <a href="{{ url_for('community', category='all') }}" class="category-btn {{ 'active' if selected_category == 'all' else '' }}">
+                    <i class="fas fa-th-large"></i> All Posts
+                </a>
+                <a href="{{ url_for('community', category='safety') }}" class="category-btn {{ 'active' if selected_category == 'safety' else '' }}">
+                    <i class="fas fa-shield-alt"></i> Safety Tips
+                </a>
+                <a href="{{ url_for('community', category='career') }}" class="category-btn {{ 'active' if selected_category == 'career' else '' }}">
+                    <i class="fas fa-briefcase"></i> Career Guidance
+                </a>
+                <a href="{{ url_for('community', category='health') }}" class="category-btn {{ 'active' if selected_category == 'health' else '' }}">
+                    <i class="fas fa-heartbeat"></i> Health
+                </a>
+                <a href="{{ url_for('community', category='legal') }}" class="category-btn {{ 'active' if selected_category == 'legal' else '' }}">
+                    <i class="fas fa-gavel"></i> Legal Help
+                </a>
+                <a href="{{ url_for('community', category='support') }}" class="category-btn {{ 'active' if selected_category == 'support' else '' }}">
+                    <i class="fas fa-heart"></i> Support
+                </a>
+            </div>
+        </div>
+        
+        <div class="col-md-4 text-md-end">
+            <a href="{{ url_for('new_community_post') }}" class="btn btn-primary">
+                <i class="fas fa-plus"></i> New Post
+            </a>
+        </div>
+    </div>
+
+    <!-- Community Guidelines Notice -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="alert alert-info">
+                <div class="d-flex align-items-start">
+                    <i class="fas fa-info-circle me-3 mt-1"></i>
+                    <div>
+                        <h6 class="alert-heading">Community Guidelines</h6>
+                        <p class="mb-2">This is a safe space for women to connect and support each other. Please be respectful, kind, and supportive.</p>
+                        <small class="text-muted">
+                            • No harassment or discrimination • Respect privacy • Be supportive • Report inappropriate content
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Posts List -->
+    <div class="row">
+        {% if posts %}
+            {% for post in posts %}
+            <div class="col-12 mb-4">
+                <div class="post-card">
+                    <div class="post-header">
+                        <div class="post-user-info">
+                            <div class="user-avatar">
+                                {% if not post.is_anonymous %}
+                                    {% if post.user.profile_image_url %}
+                                        <img src="{{ post.user.profile_image_url }}" alt="Profile">
+                                    {% else %}
+                                        <i class="fas fa-user"></i>
+                                    {% endif %}
+                                {% else %}
+                                    <i class="fas fa-user-secret"></i>
+                                {% endif %}
+                            </div>
+                            <div class="user-details">
+                                <h6 class="user-name">
+                                    {% if post.is_anonymous %}
+                                        Anonymous
+                                    {% else %}
+                                        {{ post.user.first_name or 'Community Member' }}
+                                    {% endif %}
+                                </h6>
+                                <small class="post-time text-muted">
+                                    {{ post.created_at.strftime('%B %d, %Y at %I:%M %p') }}
+                                </small>
+                            </div>
+                        </div>
+                        
+                        <div class="post-category">
+                            <span class="category-badge bg-{{ 'danger' if post.category == 'safety' else 'warning' if post.category == 'career' else 'success' if post.category == 'health' else 'primary' if post.category == 'legal' else 'info' }}">
+                                <i class="fas fa-{{ 'shield-alt' if post.category == 'safety' else 'briefcase' if post.category == 'career' else 'heartbeat' if post.category == 'health' else 'gavel' if post.category == 'legal' else 'heart' }}"></i>
+                                {{ post.category.title() }}
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="post-content">
+                        <h5 class="post-title">{{ post.title }}</h5>
+                        <div class="post-text">
+                            {{ post.content | truncate(300) }}
+                            {% if post.content | length > 300 %}
+                                <button class="btn btn-link btn-sm p-0" onclick="togglePostContent({{ post.id }})">
+                                    Read more...
+                                </button>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="post-full-content" id="postContent{{ post.id }}" style="display: none;">
+                            {{ post.content }}
+                            <button class="btn btn-link btn-sm p-0" onclick="togglePostContent({{ post.id }})">
+                                Show less
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="post-footer">
+                        <div class="post-stats">
+                            <span class="stat-item">
+                                <i class="fas fa-comments text-muted"></i>
+                                {{ post.reply_count }} replies
+                            </span>
+                            <span class="stat-item">
+                                <i class="fas fa-heart text-muted"></i>
+                                <span class="support-count">0</span> support
+                            </span>
+                        </div>
+                        
+                        <div class="post-actions">
+                            <button class="btn btn-sm btn-outline-primary" onclick="showSupportModal({{ post.id }})">
+                                <i class="fas fa-heart"></i> Support
+                            </button>
+                            <button class="btn btn-sm btn-outline-secondary" onclick="showReplyModal({{ post.id }})">
+                                <i class="fas fa-reply"></i> Reply
+                            </button>
+                            <button class="btn btn-sm btn-outline-secondary" onclick="sharePost({{ post.id }}, '{{ post.title }}')">
+                                <i class="fas fa-share-alt"></i> Share
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger" onclick="reportPost({{ post.id }})">
+                                <i class="fas fa-flag"></i> Report
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="col-12">
+                <div class="empty-state-card">
+                    <div class="empty-state-icon">
+                        <i class="fas fa-comments text-muted"></i>
+                    </div>
+                    <h4>No Posts Yet</h4>
+                    <p class="text-muted">
+                        {% if selected_category != 'all' %}
+                            No posts found in the {{ selected_category }} category. Be the first to start a conversation!
+                        {% else %}
+                            No posts in the community yet. Be the first to share something!
+                        {% endif %}
+                    </p>
+                    <a href="{{ url_for('new_community_post') }}" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Create First Post
+                    </a>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Support Resources -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="content-card">
+                <h4 class="card-title">
+                    <i class="fas fa-hands-helping text-success"></i>
+                    Support Resources
+                </h4>
+                
+                <div class="row g-4">
+                    <div class="col-md-6 col-lg-3">
+                        <div class="support-resource">
+                            <div class="resource-icon bg-danger">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <h6>Emergency Helpline</h6>
+                            <p class="small text-muted">24x7 emergency support</p>
+                            <a href="tel:1091" class="btn btn-sm btn-danger">Call 1091</a>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 col-lg-3">
+                        <div class="support-resource">
+                            <div class="resource-icon bg-primary">
+                                <i class="fas fa-comments"></i>
+                            </div>
+                            <h6>Crisis Counseling</h6>
+                            <p class="small text-muted">Professional mental health support</p>
+                            <button class="btn btn-sm btn-primary" onclick="showCounselingInfo()">Get Help</button>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 col-lg-3">
+                        <div class="support-resource">
+                            <div class="resource-icon bg-success">
+                                <i class="fas fa-user-friends"></i>
+                            </div>
+                            <h6>Peer Support</h6>
+                            <p class="small text-muted">Connect with support groups</p>
+                            <button class="btn btn-sm btn-success" onclick="showSupportGroups()">Join Groups</button>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 col-lg-3">
+                        <div class="support-resource">
+                            <div class="resource-icon bg-warning">
+                                <i class="fas fa-gavel"></i>
+                            </div>
+                            <h6>Legal Aid</h6>
+                            <p class="small text-muted">Free legal consultation</p>
+                            <button class="btn btn-sm btn-warning" onclick="showLegalAid()">Get Legal Help</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Support Modal -->
+<div class="modal fade" id="supportModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-heart text-danger"></i>
+                    Show Support
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Your support means a lot to community members. Choose how you'd like to show support:</p>
+                <div class="support-options">
+                    <button class="btn btn-outline-danger mb-2 w-100" onclick="addSupport('heart')">
+                        <i class="fas fa-heart"></i> Send Love & Support
+                    </button>
+                    <button class="btn btn-outline-primary mb-2 w-100" onclick="addSupport('hug')">
+                        <i class="fas fa-heart"></i> Virtual Hug
+                    </button>
+                    <button class="btn btn-outline-success mb-2 w-100" onclick="addSupport('strength')">
+                        <i class="fas fa-fist-raised"></i> You're Strong!
+                    </button>
+                    <button class="btn btn-outline-warning mb-2 w-100" onclick="addSupport('here')">
+                        <i class="fas fa-hands-helping"></i> I'm Here for You
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Reply Modal -->
+<div class="modal fade" id="replyModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-reply text-primary"></i>
+                    Reply to Post
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label class="form-label">Your Reply</label>
+                        <textarea class="form-control" rows="4" placeholder="Share your thoughts, experiences, or support..."></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="anonymousReply">
+                            <label class="form-check-label" for="anonymousReply">
+                                Post anonymously
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="submitReply()">
+                    <i class="fas fa-paper-plane"></i> Post Reply
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+let currentPostId = null;
+
+function togglePostContent(postId) {
+    const shortContent = document.querySelector(`#postContent${postId}`).previousElementSibling;
+    const fullContent = document.querySelector(`#postContent${postId}`);
+    
+    if (fullContent.style.display === 'none') {
+        shortContent.style.display = 'none';
+        fullContent.style.display = 'block';
+    } else {
+        shortContent.style.display = 'block';
+        fullContent.style.display = 'none';
+    }
+}
+
+function showSupportModal(postId) {
+    currentPostId = postId;
+    new bootstrap.Modal(document.getElementById('supportModal')).show();
+}
+
+function showReplyModal(postId) {
+    currentPostId = postId;
+    new bootstrap.Modal(document.getElementById('replyModal')).show();
+}
+
+function addSupport(type) {
+    // Animate support button
+    const supportCount = document.querySelector('.support-count');
+    const currentCount = parseInt(supportCount.textContent);
+    supportCount.textContent = currentCount + 1;
+    
+    // Show success message
+    showToast('Support sent! ❤️');
+    bootstrap.Modal.getInstance(document.getElementById('supportModal')).hide();
+}
+
+function submitReply() {
+    // Placeholder for reply submission
+    showToast('Reply posted successfully!');
+    bootstrap.Modal.getInstance(document.getElementById('replyModal')).hide();
+}
+
+function sharePost(postId, title) {
+    const shareText = `💬 Community Post: ${title}\n\nJoin the conversation on aai Saheb Community Forum`;
+    
+    if (navigator.share) {
+        navigator.share({
+            title: title,
+            text: shareText
+        });
+    } else {
+        navigator.clipboard.writeText(shareText).then(() => {
+            showToast('Post details copied to clipboard!');
+        });
+    }
+}
+
+function reportPost(postId) {
+    if (confirm('Are you sure you want to report this post? Our moderation team will review it.')) {
+        showToast('Post reported. Thank you for keeping our community safe.');
+    }
+}
+
+function showCounselingInfo() {
+    showToast('Counseling services information coming soon!');
+}
+
+function showSupportGroups() {
+    showToast('Support groups directory coming soon!');
+}
+
+function showLegalAid() {
+    showToast('Legal aid contacts coming soon!');
+}
+
+function showToast(message) {
+    const toast = document.createElement('div');
+    toast.className = 'toast-notification';
+    toast.textContent = message;
+    toast.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #3F51B5;
+        color: white;
+        padding: 12px 20px;
+        border-radius: 8px;
+        z-index: 9999;
+        animation: slideIn 0.3s ease;
+    `;
+    
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
+}
+
+// Add CSS for animations
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes slideIn {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+    @keyframes slideOut {
+        from { transform: translateX(0); opacity: 1; }
+        to { transform: translateX(100%); opacity: 0; }
+    }
+`;
+document.head.appendChild(style);
+</script>
+{% endblock %}

@@ -1,0 +1,139 @@
+{
+  "name": "aai Saheb - Women's Safety & Empowerment Platform",
+  "short_name": "aai Saheb",
+  "description": "Comprehensive women's safety and empowerment platform for Maharashtra with emergency SOS, education, employment, and community support",
+  "version": "1.0.0",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#3F51B5",
+  "background_color": "#FAFAFA",
+  "lang": "en",
+  "scope": "/",
+  "categories": ["safety", "social", "education", "productivity"],
+  "icons": [
+    {
+      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiByeD0iMjQiIGZpbGw9IiMzRjUxQjUiLz4KPHN2ZyB4PSI0OCIgeT0iNDgiIHdpZHRoPSI5NiIgaGVpZ2h0PSI5NiIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CjxwYXRoIGQ9Im0xMiAzLTEuOTEyIDUuODEzYTIgMiAwIDAgMS0xLjc3NSAxLjU5NWwtNi4zNTMuNDQzYTEgMSAwIDAgMC0uNDQgMS43N0w4IDEzdi05eiIvPgo8cGF0aCBkPSJtMTIgMyAxLjkxMiA1LjgxM2EyIDIgMCAwIDAgMS43NzUgMS41OTVsNi4zNTMuNDQzYTEgMSAwIDAgMSAuNDQgMS43N0wxNiAxM1Y0eiIvPgo8cGF0aCBkPSJNMTYgMTN2NGEyIDIgMCAwIDEtMiAySDEwYTIgMiAwIDAgMS0yLTJ2LTQiLz4KPHN2ZyB4PSI5IiB5PSIxNiIgd2lkdGg9IjYiIGhlaWdodD0iMyIgdmlld0JveD0iMCAwIDYgMyIgZmlsbD0iI0ZGOTgwMCI+CjxyZWN0IHdpZHRoPSI2IiBoZWlnaHQ9IjMiIHJ4PSIxLjUiLz4KPC9zdmc+Cjwvc3ZnPgo=",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iNjQiIGZpbGw9IiMzRjUxQjUiLz4KPHN2ZyB4PSIxMjgiIHk9IjEyOCIgd2lkdGg9IjI1NiIgaGVpZ2h0PSIyNTYiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CjxwYXRoIGQ9Im0xMiAzLTEuOTEyIDUuODEzYTIgMiAwIDAgMS0xLjc3NSAxLjU5NWwtNi4zNTMuNDQzYTEgMSAwIDAgMC0uNDQgMS43N0w4IDEzdi05eiIvPgo8cGF0aCBkPSJtMTIgMyAxLjkxMiA1LjgxM2EyIDIgMCAwIDAgMS43NzUgMS41OTVsNi4zNTMuNDQzYTEgMSAwIDAgMSAuNDQgMS43N0wxNiAxM1Y0eiIvPgo8cGF0aCBkPSJNMTYgMTN2NGEyIDIgMCAwIDEtMiAySDEwYTIgMiAwIDAgMS0yLTJ2LTQiLz4KPHN2ZyB4PSIyNCIgeT0iNDIiIHdpZHRoPSIxNiIgaGVpZ2h0PSI4IiB2aWV3Qm94PSIwIDAgMTYgOCIgZmlsbD0iI0ZGOTgwMCI+CjxyZWN0IHdpZHRoPSIxNiIgaGVpZ2h0PSI4IiByeD0iNCIvPgo8L3N2Zz4KPC9zdmc+Cjwvc3ZnPgo=",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzYwIiBoZWlnaHQ9Ijc4MCIgdmlld0JveD0iMCAwIDM2MCA3ODAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzNjAiIGhlaWdodD0iNzgwIiBmaWxsPSIjRkFGQUZBIi8+CjxyZWN0IHg9IjE2IiB5PSI2NCIgd2lkdGg9IjMyOCIgaGVpZ2h0PSI2NCIgcng9IjgiIGZpbGw9IndoaXRlIi8+Cjx0ZXh0IHg9IjE4MCIgeT0iMTAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjM0Y1MUI1IiBmb250LWZhbWlseT0ic3lzdGVtLXVpIiBmb250LXNpemU9IjIwIiBmb250LXdlaWdodD0iNjAwIj5hYWkgU2FoZWI8L3RleHQ+CjxyZWN0IHg9IjE2IiB5PSIxNDQiIHdpZHRoPSIzMjgiIGhlaWdodD0iMjAwIiByeD0iMTYiIGZpbGw9IiMzRjUxQjUiLz4KPGNpcmNsZSBjeD0iMTgwIiBjeT0iMjE0IiByPSIzMiIgZmlsbD0id2hpdGUiLz4KPHRleHQgeD0iMTgwIiB5PSIyNzAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IndoaXRlIiBmb250LWZhbWlseT0ic3lzdGVtLXVpIiBmb250LXNpemU9IjE4IiBmb250LXdlaWdodD0iNjAwIj5FbWVyZ2VuY3kgU09TPC90ZXh0Pgo8dGV4dCB4PSIxODAiIHk9IjI5MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0id2hpdGUiIGZvbnQtZmFtaWx5PSJzeXN0ZW0tdWkiIGZvbnQtc2l6ZT0iMTQiPk9uZS10YXAgZW1lcmdlbmN5IGFsZXJ0PC90ZXh0Pgo8cmVjdCB4PSIxNiIgeT0iMzY0IiB3aWR0aD0iMTA4IiBoZWlnaHQ9IjEyMCIgcng9IjE2IiBmaWxsPSJ3aGl0ZSIvPgo8cmVjdCB4PSIxMjYiIHk9IjM2NCIgd2lkdGg9IjEwOCIgaGVpZ2h0PSIxMjAiIHJ4PSIxNiIgZmlsbD0id2hpdGUiLz4KPHJlY3QgeD0iMjM2IiB5PSIzNjQiIHdpZHRoPSIxMDgiIGhlaWdodD0iMTIwIiByeD0iMTYiIGZpbGw9IndoaXRlIi8+Cjx0ZXh0IHg9IjcwIiB5PSI0MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMzRjUxQjUiIGZvbnQtZmFtaWx5PSJzeXN0ZW0tdWkiIGZvbnQtc2l6ZT0iMTIiIGZvbnQtd2VpZ2h0PSI2MDAiPlNhZmV0eTwvdGV4dD4KPHRleHQgeD0iMTgwIiB5PSI0MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM0Q0FGNTAIIGZvbnQtZmFtaWx5PSJzeXN0ZW0tdWkiIGZvbnQtc2l6ZT0iMTIiIGZvbnQtd2VpZ2h0PSI2MDAiPkVkdWNhdGlvbjwvdGV4dD4KPHRleHQgeD0iMjkwIiB5PSI0MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNGRjk4MDAiIGZvbnQtZmFtaWx5PSJzeXN0ZW0tdWkiIGZvbnQtc2l6ZT0iMTIiIGZvbnQtd2VpZ2h0PSI2MDAiPkpvYnM8L3RleHQ+CjwvcmVjdD4KPC9zdmc+",
+      "sizes": "360x780",
+      "type": "image/svg+xml",
+      "form_factor": "narrow"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Emergency SOS",
+      "description": "Quick access to emergency services",
+      "url": "/sos",
+      "icons": [
+        {
+          "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iOTYiIHZpZXdCb3g9IjAgMCA5NiA5NiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9Ijk2IiBoZWlnaHQ9Ijk2IiByeD0iMTIiIGZpbGw9IiNGNDQzMzYiLz4KPHN2ZyB4PSIyNCIgeT0iMjQiIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+Cjxwb2x5Z29uIHBvaW50cz0iMTMsMiAzLDE0IDE2LDE0Ii8+CjxsaW5lIHgxPSIxMiIgeTE9IjE3IiB4Mj0iMTIiIHkyPSIyMiIvPgo8L3N2Zz4KPC9zdmc+",
+          "sizes": "96x96",
+          "type": "image/svg+xml"
+        }
+      ]
+    },
+    {
+      "name": "Safety Resources",
+      "description": "Find nearby police stations and hospitals",
+      "url": "/safety_resources",
+      "icons": [
+        {
+          "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iOTYiIHZpZXdCb3g9IjAgMCA5NiA5NiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9Ijk2IiBoZWlnaHQ9Ijk2IiByeD0iMTIiIGZpbGw9IiMzRjUxQjUiLz4KPHN2ZyB4PSIyNCIgeT0iMjQiIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CjxwYXRoIGQ9Im0xMiAyIDguNSA1djcuNWMwIDUuNS04LjUgMTAuNS04LjUgMTAuNXMtOC41LTUtOC41LTEwLjVWN0wxMiAyeiIvPgo8cGF0aCBkPSJtOSAxMiAyIDIgNC00Ii8+Cjwvc3ZnPgo8L3N2Zz4K",
+          "sizes": "96x96",
+          "type": "image/svg+xml"
+        }
+      ]
+    },
+    {
+      "name": "Community",
+      "description": "Connect with support community",
+      "url": "/community",
+      "icons": [
+        {
+          "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iOTYiIHZpZXdCb3g9IjAgMCA5NiA5NiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9Ijk2IiBoZWlnaHQ9Ijk2IiByeD0iMTIiIGZpbGw9IiMyMTk2RjMiLz4KPHN2ZyB4PSIyNCIgeT0iMjQiIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CjxwYXRoIGQ9Im0zIDIxIDEuOS0yLjJhMy4yIDMuMiAwIDAgMSAyLjItMWgxMGEyIDIgMCAwIDAgMi0yVjVhMiAyIDAgMCAwLTItMkg3YTIgMiAwIDAgMC0yIDJ2MTZ6Ii8+CjxwYXRoIGQ9Im05IDEwaDYiLz4KPHBhdGggZD0ibTkgMTRoNCIvPgo8L3N2Zz4KPC9zdmc+",
+          "sizes": "96x96",
+          "type": "image/svg+xml"
+        }
+      ]
+    },
+    {
+      "name": "Education",
+      "description": "Access learning modules",
+      "url": "/education",
+      "icons": [
+        {
+          "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iOTYiIHZpZXdCb3g9IjAgMCA5NiA5NiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9Ijk2IiBoZWlnaHQ9Ijk2IiByeD0iMTIiIGZpbGw9IiM0Q0FGNTAILZ4KPHN2ZyB4PSIyNCIgeT0iMjQiIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CjxwYXRoIGQ9Im0xMiAzLTEuOTEyIDUuODEzYTIgMiAwIDAgMS0xLjc3NSAxLjU5NWwtNi4zNTMuNDQzYTEgMSAwIDAgMC0uNDQgMS43N0w4IDEzdi05eiIvPgo8cGF0aCBkPSJtMTIgMyAxLjkxMiA1LjgxM2EyIDIgMCAwIDAgMS43NzUgMS41OTVsNi4zNTMuNDQzYTEgMSAwIDAgMSAuNDQgMS43N0wxNiAxM1Y0eiIvPgo8cGF0aCBkPSJNMTYgMTN2NGEyIDIgMCAwIDEtMiAySDEwYTIgMiAwIDAgMS0yLTJ2LTQiLz4KPC9zdmc+Cjwvc3ZnPgo=",
+          "sizes": "96x96",
+          "type": "image/svg+xml"
+        }
+      ]
+    }
+  ],
+  "share_target": {
+    "action": "/share",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url",
+      "files": [
+        {
+          "name": "evidence",
+          "accept": ["image/*", "audio/*", "video/*"]
+        }
+      ]
+    }
+  },
+  "prefer_related_applications": false,
+  "related_applications": [],
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "file_handlers": [
+    {
+      "action": "/handle-file",
+      "accept": {
+        "image/*": [".jpg", ".jpeg", ".png", ".gif", ".webp"],
+        "audio/*": [".mp3", ".wav", ".ogg", ".m4a"],
+        "video/*": [".mp4", ".webm", ".mov"]
+      }
+    }
+  ],
+  "protocol_handlers": [
+    {
+      "protocol": "tel",
+      "url": "/call?number=%s"
+    }
+  ],
+  "launch_handler": {
+    "client_mode": "focus-existing"
+  },
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "handle_links": "preferred",
+  "id": "aai-saheb-app",
+  "dir": "ltr",
+  "iarc_rating_id": "",
+  "features": [
+    "geolocation",
+    "camera",
+    "microphone",
+    "push-notifications",
+    "offline-support",
+    "background-sync"
+  ]
+}

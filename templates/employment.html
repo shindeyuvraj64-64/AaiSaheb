@@ -1,0 +1,550 @@
+{% extends "base.html" %}
+
+{% block title %}Employment Opportunities - aai Saheb{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="page-header">
+                <h1>
+                    <i class="fas fa-briefcase text-warning"></i>
+                    Employment & Career Opportunities
+                </h1>
+                <p class="lead">Discover job opportunities, internships, and entrepreneurship support across Maharashtra</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="row mb-4">
+        <div class="col-md-3 col-6 mb-3">
+            <div class="stat-card border-primary">
+                <div class="stat-icon bg-primary">
+                    <i class="fas fa-building"></i>
+                </div>
+                <div class="stat-content">
+                    <h4>{{ jobs | selectattr('job_type', 'equalto', 'government') | list | length }}</h4>
+                    <p>Government Jobs</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 col-6 mb-3">
+            <div class="stat-card border-success">
+                <div class="stat-icon bg-success">
+                    <i class="fas fa-city"></i>
+                </div>
+                <div class="stat-content">
+                    <h4>{{ jobs | selectattr('job_type', 'equalto', 'private') | list | length }}</h4>
+                    <p>Private Sector</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 col-6 mb-3">
+            <div class="stat-card border-info">
+                <div class="stat-icon bg-info">
+                    <i class="fas fa-laptop"></i>
+                </div>
+                <div class="stat-content">
+                    <h4>{{ jobs | selectattr('job_type', 'equalto', 'freelance') | list | length }}</h4>
+                    <p>Freelance/Remote</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 col-6 mb-3">
+            <div class="stat-card border-danger">
+                <div class="stat-icon bg-danger">
+                    <i class="fas fa-venus"></i>
+                </div>
+                <div class="stat-content">
+                    <h4>{{ jobs | selectattr('is_women_only', 'equalto', true) | list | length }}</h4>
+                    <p>Women Only</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="filters-card">
+                <form method="GET" class="row g-3">
+                    <div class="col-md-4">
+                        <label for="type" class="form-label">Job Type</label>
+                        <select name="type" id="type" class="form-select">
+                            <option value="all" {{ 'selected' if selected_type == 'all' }}>All Types</option>
+                            <option value="government" {{ 'selected' if selected_type == 'government' }}>Government</option>
+                            <option value="private" {{ 'selected' if selected_type == 'private' }}>Private Sector</option>
+                            <option value="freelance" {{ 'selected' if selected_type == 'freelance' }}>Freelance/Remote</option>
+                        </select>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <label for="district" class="form-label">District</label>
+                        <select name="district" id="district" class="form-select">
+                            <option value="all" {{ 'selected' if selected_district == 'all' }}>All Districts</option>
+                            {% for district in districts %}
+                                <option value="{{ district }}" {{ 'selected' if selected_district == district }}>{{ district }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <label class="form-label">&nbsp;</label>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-search"></i> Filter Jobs
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Featured Jobs -->
+    {% if selected_type == 'all' and selected_district == 'all' %}
+    <div class="row mb-5">
+        <div class="col-12">
+            <h3 class="section-title">
+                <i class="fas fa-star text-warning"></i>
+                Featured Opportunities
+            </h3>
+        </div>
+        
+        <div class="col-lg-6 mb-4">
+            <div class="featured-job-card">
+                <div class="job-badge bg-primary">Government</div>
+                <div class="women-only-badge">
+                    <i class="fas fa-venus"></i> Women Only
+                </div>
+                <h4>Maharashtra Public Service Commission</h4>
+                <p class="job-summary">Various administrative positions available across Maharashtra. Apply for Group A and Group B posts.</p>
+                <div class="job-highlights">
+                    <span class="highlight-tag">₹25,000 - ₹80,000</span>
+                    <span class="highlight-tag">All Districts</span>
+                    <span class="highlight-tag">Graduation Required</span>
+                </div>
+                <div class="job-actions">
+                    <a href="https://mpsc.gov.in" target="_blank" class="btn btn-primary">
+                        <i class="fas fa-external-link-alt"></i> Apply Now
+                    </a>
+                    <button class="btn btn-outline-primary" onclick="shareJob('MPSC Jobs', 'https://mpsc.gov.in')">
+                        <i class="fas fa-share-alt"></i> Share
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-6 mb-4">
+            <div class="featured-job-card">
+                <div class="job-badge bg-success">Private</div>
+                <h4>Tech Companies - Women in Tech Initiative</h4>
+                <p class="job-summary">Special hiring drive for women in technology roles. Multiple positions in software development, data analysis, and digital marketing.</p>
+                <div class="job-highlights">
+                    <span class="highlight-tag">₹30,000 - ₹1,20,000</span>
+                    <span class="highlight-tag">Mumbai, Pune</span>
+                    <span class="highlight-tag">Tech Skills</span>
+                </div>
+                <div class="job-actions">
+                    <button class="btn btn-primary" onclick="showJobAlert()">
+                        <i class="fas fa-bell"></i> Get Alerts
+                    </button>
+                    <button class="btn btn-outline-primary" onclick="showResumeBuilder()">
+                        <i class="fas fa-file-alt"></i> Build Resume
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Jobs List -->
+    <div class="row">
+        <div class="col-12 mb-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <h3 class="section-title">
+                    <i class="fas fa-list text-info"></i>
+                    Available Opportunities ({{ jobs | length }})
+                </h3>
+                <div class="view-toggle">
+                    <button class="btn btn-sm btn-outline-secondary active" onclick="toggleView('grid')">
+                        <i class="fas fa-th"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-secondary" onclick="toggleView('list')">
+                        <i class="fas fa-list"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div id="jobsContainer" class="jobs-grid">
+            {% for job in jobs %}
+            <div class="col-lg-6 col-xl-4 mb-4">
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="job-type-badge bg-{{ 'primary' if job.job_type == 'government' else 'success' if job.job_type == 'private' else 'info' }}">
+                            {{ job.job_type.title() }}
+                        </div>
+                        {% if job.is_women_only %}
+                        <div class="women-only-indicator">
+                            <i class="fas fa-venus text-danger"></i>
+                        </div>
+                        {% endif %}
+                        {% if job.application_deadline %}
+                        <div class="deadline-indicator">
+                            <i class="fas fa-clock text-warning"></i>
+                            <small>{{ job.application_deadline.strftime('%b %d') }}</small>
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="job-content">
+                        <h5 class="job-title">{{ job.title }}</h5>
+                        <h6 class="job-company text-muted">{{ job.company }}</h6>
+                        <p class="job-description">{{ job.description[:120] }}{% if job.description|length > 120 %}...{% endif %}</p>
+                        
+                        <div class="job-details">
+                            <div class="detail-item">
+                                <i class="fas fa-map-marker-alt text-muted"></i>
+                                <span>{{ job.location }}, {{ job.district }}</span>
+                            </div>
+                            
+                            {% if job.salary_range %}
+                            <div class="detail-item">
+                                <i class="fas fa-rupee-sign text-muted"></i>
+                                <span>{{ job.salary_range }}</span>
+                            </div>
+                            {% endif %}
+                            
+                            {% if job.experience_required %}
+                            <div class="detail-item">
+                                <i class="fas fa-briefcase text-muted"></i>
+                                <span>{{ job.experience_required }}</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                        
+                        {% if job.skills_required %}
+                        <div class="job-skills">
+                            {% for skill in job.skills_required.split(',')[:3] %}
+                            <span class="skill-tag">{{ skill.strip() }}</span>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="job-footer">
+                        {% if job.application_url %}
+                        <a href="{{ job.application_url }}" target="_blank" class="btn btn-primary btn-sm">
+                            <i class="fas fa-external-link-alt"></i> Apply
+                        </a>
+                        {% endif %}
+                        
+                        {% if job.contact_email %}
+                        <a href="mailto:{{ job.contact_email }}" class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-envelope"></i> Contact
+                        </a>
+                        {% endif %}
+                        
+                        <button class="btn btn-outline-secondary btn-sm" onclick="shareJob('{{ job.title }}', '{{ job.application_url or '#' }}')">
+                            <i class="fas fa-share-alt"></i>
+                        </button>
+                        
+                        <button class="btn btn-outline-secondary btn-sm" onclick="saveJob({{ job.id }})">
+                            <i class="fas fa-bookmark"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        {% if not jobs %}
+        <div class="col-12">
+            <div class="empty-state-card">
+                <div class="empty-state-icon">
+                    <i class="fas fa-search text-muted"></i>
+                </div>
+                <h4>No Jobs Found</h4>
+                <p class="text-muted">No job opportunities found matching your criteria. Try adjusting the filters or check back later.</p>
+                <div class="empty-state-actions">
+                    <a href="{{ url_for('employment') }}" class="btn btn-primary">
+                        <i class="fas fa-refresh"></i> Reset Filters
+                    </a>
+                    <button class="btn btn-outline-primary" onclick="showJobAlert()">
+                        <i class="fas fa-bell"></i> Set Job Alert
+                    </button>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Career Resources -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="content-card">
+                <h4 class="card-title">
+                    <i class="fas fa-graduation-cap text-success"></i>
+                    Career Development Resources
+                </h4>
+                
+                <div class="row g-4">
+                    <div class="col-md-6 col-lg-3">
+                        <div class="resource-card" onclick="showResumeBuilder()">
+                            <div class="resource-icon bg-primary">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <h6>Resume Builder</h6>
+                            <p class="small text-muted">Create professional resumes with multilingual templates</p>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 col-lg-3">
+                        <div class="resource-card" onclick="showInterviewPrep()">
+                            <div class="resource-icon bg-success">
+                                <i class="fas fa-comments"></i>
+                            </div>
+                            <h6>Interview Prep</h6>
+                            <p class="small text-muted">Practice common interview questions and get tips</p>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 col-lg-3">
+                        <div class="resource-card" onclick="showSkillAssessment()">
+                            <div class="resource-icon bg-info">
+                                <i class="fas fa-chart-bar"></i>
+                            </div>
+                            <h6>Skill Assessment</h6>
+                            <p class="small text-muted">Evaluate your skills and get improvement suggestions</p>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 col-lg-3">
+                        <div class="resource-card" onclick="showMentorship()">
+                            <div class="resource-icon bg-warning">
+                                <i class="fas fa-user-friends"></i>
+                            </div>
+                            <h6>Mentorship</h6>
+                            <p class="small text-muted">Connect with experienced professionals for guidance</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Entrepreneurship Section -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="entrepreneurship-card">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h4>
+                            <i class="fas fa-lightbulb text-warning"></i>
+                            Start Your Own Business
+                        </h4>
+                        <p class="mb-0">Explore entrepreneurship opportunities with business plan templates, funding information, and mentorship support.</p>
+                        <div class="entrepreneur-features mt-2">
+                            <span class="feature-badge">MUDRA Loans</span>
+                            <span class="feature-badge">Stand-Up India</span>
+                            <span class="feature-badge">SHG Support</span>
+                            <span class="feature-badge">Business Mentoring</span>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-md-end">
+                        <button class="btn btn-warning me-2" onclick="showBusinessPlan()">
+                            <i class="fas fa-file-contract"></i> Business Plan
+                        </button>
+                        <button class="btn btn-outline-warning" onclick="showFundingInfo()">
+                            <i class="fas fa-coins"></i> Funding Info
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Job Alert Modal -->
+<div class="modal fade" id="jobAlertModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-bell text-primary"></i>
+                    Set Job Alert
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label class="form-label">Job Keywords</label>
+                        <input type="text" class="form-control" placeholder="e.g., Teacher, Software Developer, Nurse">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Preferred Location</label>
+                        <select class="form-select">
+                            <option>All Maharashtra</option>
+                            <option>Mumbai</option>
+                            <option>Pune</option>
+                            <option>Nagpur</option>
+                            <option>Nashik</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Job Type</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="govJobs" checked>
+                            <label class="form-check-label" for="govJobs">Government Jobs</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="privateJobs" checked>
+                            <label class="form-check-label" for="privateJobs">Private Sector</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="remoteJobs">
+                            <label class="form-check-label" for="remoteJobs">Remote/Freelance</label>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="womenOnlyJobs">
+                            <label class="form-check-label" for="womenOnlyJobs">Women-only positions</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="saveJobAlert()">
+                    <i class="fas fa-bell"></i> Set Alert
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+let currentView = 'grid';
+
+function toggleView(view) {
+    currentView = view;
+    const container = document.getElementById('jobsContainer');
+    const buttons = document.querySelectorAll('.view-toggle button');
+    
+    buttons.forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+    
+    if (view === 'list') {
+        container.classList.remove('jobs-grid');
+        container.classList.add('jobs-list');
+    } else {
+        container.classList.remove('jobs-list');
+        container.classList.add('jobs-grid');
+    }
+}
+
+function shareJob(title, url) {
+    const shareText = `💼 Job Opportunity: ${title}\n\nApply here: ${url}\n\nFound on aai Saheb - Women's Employment Platform`;
+    
+    if (navigator.share) {
+        navigator.share({
+            title: title,
+            text: shareText,
+            url: url
+        });
+    } else {
+        navigator.clipboard.writeText(shareText).then(() => {
+            showToast('Job details copied to clipboard!');
+        });
+    }
+}
+
+function saveJob(jobId) {
+    // Placeholder for save job functionality
+    showToast('Job saved! (Feature coming soon)');
+}
+
+function showJobAlert() {
+    new bootstrap.Modal(document.getElementById('jobAlertModal')).show();
+}
+
+function saveJobAlert() {
+    // Placeholder for job alert functionality
+    showToast('Job alert set successfully!');
+    bootstrap.Modal.getInstance(document.getElementById('jobAlertModal')).hide();
+}
+
+function showResumeBuilder() {
+    showToast('Resume Builder opening soon!');
+}
+
+function showInterviewPrep() {
+    showToast('Interview Preparation module coming soon!');
+}
+
+function showSkillAssessment() {
+    showToast('Skill Assessment tool coming soon!');
+}
+
+function showMentorship() {
+    showToast('Mentorship program launching soon!');
+}
+
+function showBusinessPlan() {
+    showToast('Business Plan templates coming soon!');
+}
+
+function showFundingInfo() {
+    showToast('Funding information module coming soon!');
+}
+
+function showToast(message) {
+    // Simple toast notification
+    const toast = document.createElement('div');
+    toast.className = 'toast-notification';
+    toast.textContent = message;
+    toast.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #3F51B5;
+        color: white;
+        padding: 12px 20px;
+        border-radius: 8px;
+        z-index: 9999;
+        animation: slideIn 0.3s ease;
+    `;
+    
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
+}
+
+// Add CSS for animations
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes slideIn {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+    @keyframes slideOut {
+        from { transform: translateX(0); opacity: 1; }
+        to { transform: translateX(100%); opacity: 0; }
+    }
+`;
+document.head.appendChild(style);
+</script>
+{% endblock %}

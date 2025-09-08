@@ -1,0 +1,237 @@
+{% extends "base.html" %}
+
+{% block title %}Emergency SOS - aai Saheb{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Emergency Header -->
+    <div class="row mb-4">
+        <div class="col-12 text-center">
+            <div class="emergency-header">
+                <h1 class="text-danger">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Emergency SOS
+                </h1>
+                <p class="lead">Quick access to emergency services and safety resources</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SOS Activation -->
+    <div class="row justify-content-center mb-5">
+        <div class="col-md-8 col-lg-6">
+            <div class="sos-activation-card">
+                <div class="text-center">
+                    <div class="sos-button-container">
+                        <button id="sosButton" class="sos-button" onclick="activateSOS()">
+                            <div class="sos-pulse"></div>
+                            <div class="sos-content">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <span>PRESS FOR EMERGENCY</span>
+                            </div>
+                        </button>
+                    </div>
+                    
+                    <div class="sos-instructions mt-4">
+                        <h5>How it works:</h5>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-hand-pointer text-primary"></i> Press and hold for 3 seconds</li>
+                            <li><i class="fas fa-map-marker-alt text-primary"></i> Location will be shared automatically</li>
+                            <li><i class="fas fa-phone text-primary"></i> Emergency contacts will be notified</li>
+                            <li><i class="fas fa-camera text-primary"></i> Evidence will be captured (with permission)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Emergency Contacts -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="content-card">
+                <h4 class="card-title">
+                    <i class="fas fa-address-book text-primary"></i>
+                    Emergency Contacts
+                </h4>
+                
+                {% if emergency_contacts %}
+                    <div class="emergency-contacts-grid">
+                        {% for contact in emergency_contacts %}
+                        <div class="emergency-contact-card">
+                            <div class="contact-info">
+                                <h6>{{ contact.name }}</h6>
+                                <p class="text-muted">{{ contact.relationship }}</p>
+                                <a href="tel:{{ contact.phone }}" class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-phone"></i> {{ contact.phone }}
+                                </a>
+                            </div>
+                            {% if contact.is_primary %}
+                                <div class="primary-badge">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="empty-state">
+                        <i class="fas fa-address-book text-muted"></i>
+                        <p>No emergency contacts added yet</p>
+                        <a href="{{ url_for('profile') }}" class="btn btn-primary">Add Emergency Contacts</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Helplines -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="content-card">
+                <h4 class="card-title">
+                    <i class="fas fa-phone-alt text-success"></i>
+                    Maharashtra Emergency Helplines
+                </h4>
+                
+                <div class="helplines-grid">
+                    <div class="helpline-card emergency">
+                        <div class="helpline-info">
+                            <h6>Emergency Services</h6>
+                            <p class="text-muted">Police, Fire, Medical</p>
+                        </div>
+                        <a href="tel:112" class="btn btn-danger">
+                            <i class="fas fa-phone"></i> 112
+                        </a>
+                    </div>
+                    
+                    <div class="helpline-card women">
+                        <div class="helpline-info">
+                            <h6>Women Helpline</h6>
+                            <p class="text-muted">24x7 Women in Distress</p>
+                        </div>
+                        <a href="tel:1091" class="btn btn-primary">
+                            <i class="fas fa-phone"></i> 1091
+                        </a>
+                    </div>
+                    
+                    <div class="helpline-card police">
+                        <div class="helpline-info">
+                            <h6>Women Safety</h6>
+                            <p class="text-muted">Women Safety Helpline</p>
+                        </div>
+                        <a href="tel:181" class="btn btn-warning">
+                            <i class="fas fa-phone"></i> 181
+                        </a>
+                    </div>
+                    
+                    <div class="helpline-card medical">
+                        <div class="helpline-info">
+                            <h6>Medical Emergency</h6>
+                            <p class="text-muted">Ambulance Service</p>
+                        </div>
+                        <a href="tel:108" class="btn btn-success">
+                            <i class="fas fa-phone"></i> 108
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Safety Tips -->
+    <div class="row">
+        <div class="col-12">
+            <div class="content-card">
+                <h4 class="card-title">
+                    <i class="fas fa-shield-alt text-info"></i>
+                    Safety Tips & Guidelines
+                </h4>
+                
+                <div class="safety-tips">
+                    <div class="tip-item">
+                        <div class="tip-icon bg-primary">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="tip-content">
+                            <h6>Share Your Location</h6>
+                            <p>Always share your live location with trusted contacts when traveling alone</p>
+                        </div>
+                    </div>
+                    
+                    <div class="tip-item">
+                        <div class="tip-icon bg-success">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="tip-content">
+                            <h6>Keep Contacts Updated</h6>
+                            <p>Regularly update your emergency contacts and keep their numbers accessible</p>
+                        </div>
+                    </div>
+                    
+                    <div class="tip-item">
+                        <div class="tip-icon bg-warning">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <div class="tip-content">
+                            <h6>Stay Alert</h6>
+                            <p>Be aware of your surroundings and trust your instincts</p>
+                        </div>
+                    </div>
+                    
+                    <div class="tip-item">
+                        <div class="tip-icon bg-info">
+                            <i class="fas fa-route"></i>
+                        </div>
+                        <div class="tip-content">
+                            <h6>Plan Your Route</h6>
+                            <p>Use well-lit, populated routes and avoid isolated areas, especially at night</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SOS Activation Modal -->
+<div class="modal fade" id="sosModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <h5 class="modal-title text-danger">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    SOS Activated
+                </h5>
+            </div>
+            <div class="modal-body text-center">
+                <div class="sos-activation-status">
+                    <div class="spinner-border text-danger mb-3" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <h6>Emergency alert has been sent!</h6>
+                    <p class="text-muted">Your location and emergency details have been shared with your contacts.</p>
+                    
+                    <div class="countdown-container mt-4">
+                        <p>You can cancel this alert within:</p>
+                        <div class="countdown" id="countdown">30</div>
+                        <p class="small text-muted">seconds</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer border-0 justify-content-center">
+                <button type="button" class="btn btn-danger" onclick="cancelSOS()">
+                    Cancel Alert
+                </button>
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                    Keep Active
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/sos.js') }}"></script>
+{% endblock %}

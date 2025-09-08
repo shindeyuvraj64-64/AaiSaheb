@@ -1,0 +1,601 @@
+{% extends "base.html" %}
+
+{% block title %}Profile - aai Saheb{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Profile Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="profile-header-card">
+                <div class="row align-items-center">
+                    <div class="col-auto">
+                        <div class="profile-image-container">
+                            {% if current_user.profile_image_url %}
+                                <img src="{{ current_user.profile_image_url }}" alt="Profile" class="profile-image">
+                            {% else %}
+                                <div class="profile-placeholder">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                            {% endif %}
+                            <div class="profile-status-indicator online"></div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <h2 class="profile-name">
+                            {{ current_user.first_name or 'User' }} {{ current_user.last_name or '' }}
+                        </h2>
+                        <p class="profile-email text-muted">{{ current_user.email }}</p>
+                        <div class="profile-badges">
+                            <span class="badge bg-primary">{{ current_user.role.title() if current_user.role else 'Member' }}</span>
+                            {% if current_user.district %}
+                                <span class="badge bg-secondary">{{ current_user.district }}</span>
+                            {% endif %}
+                            <span class="badge bg-success">Verified</span>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+                            <i class="fas fa-edit"></i> Edit Profile
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Stats -->
+    <div class="row mb-4">
+        <div class="col-md-3 col-6 mb-3">
+            <div class="stat-card border-success">
+                <div class="stat-icon bg-success">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div class="stat-content">
+                    <h4>{{ completed_modules }}</h4>
+                    <p>Courses Completed</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 col-6 mb-3">
+            <div class="stat-card border-primary">
+                <div class="stat-icon bg-primary">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
+                <div class="stat-content">
+                    <h4>{{ (current_user.created_at.now() - current_user.created_at).days }}</h4>
+                    <p>Days Active</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 col-6 mb-3">
+            <div class="stat-card border-warning">
+                <div class="stat-icon bg-warning">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-content">
+                    <h4>5</h4>
+                    <p>Community Posts</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 col-6 mb-3">
+            <div class="stat-card border-info">
+                <div class="stat-icon bg-info">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="stat-content">
+                    <h4>{{ emergency_contacts|length }}</h4>
+                    <p>Emergency Contacts</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Personal Information -->
+        <div class="col-lg-8">
+            <div class="content-card mb-4">
+                <h4 class="card-title">
+                    <i class="fas fa-user text-primary"></i>
+                    Personal Information
+                </h4>
+                
+                <div class="info-grid">
+                    <div class="info-item">
+                        <label>Full Name</label>
+                        <div class="info-value">{{ current_user.first_name or 'Not set' }} {{ current_user.last_name or '' }}</div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <label>Email Address</label>
+                        <div class="info-value">{{ current_user.email }}</div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <label>Age</label>
+                        <div class="info-value">{{ current_user.age or 'Not set' }}</div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <label>District</label>
+                        <div class="info-value">{{ current_user.district or 'Not set' }}</div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <label>Phone Number</label>
+                        <div class="info-value">{{ current_user.phone or 'Not set' }}</div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <label>Preferred Language</label>
+                        <div class="info-value">
+                            {% if current_user.preferred_language == 'mr' %}
+                                मराठी (Marathi)
+                            {% elif current_user.preferred_language == 'hi' %}
+                                हिंदी (Hindi)
+                            {% else %}
+                                English
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <label>Member Since</label>
+                        <div class="info-value">{{ current_user.created_at.strftime('%B %d, %Y') }}</div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <label>Account Status</label>
+                        <div class="info-value">
+                            <span class="badge bg-success">
+                                <i class="fas fa-check-circle"></i> Active
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Emergency Contacts -->
+            <div class="content-card">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="card-title mb-0">
+                        <i class="fas fa-phone-alt text-danger"></i>
+                        Emergency Contacts
+                    </h4>
+                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addContactModal">
+                        <i class="fas fa-plus"></i> Add Contact
+                    </button>
+                </div>
+                
+                {% if emergency_contacts %}
+                    <div class="emergency-contacts-list">
+                        {% for contact in emergency_contacts %}
+                        <div class="emergency-contact-item">
+                            <div class="contact-info">
+                                <div class="contact-header">
+                                    <h6 class="contact-name">{{ contact.name }}</h6>
+                                    {% if contact.is_primary %}
+                                        <span class="badge bg-danger">Primary</span>
+                                    {% endif %}
+                                </div>
+                                <p class="contact-details">
+                                    <i class="fas fa-users text-muted"></i>
+                                    {{ contact.relationship }}
+                                </p>
+                                <p class="contact-phone">
+                                    <i class="fas fa-phone text-muted"></i>
+                                    {{ contact.phone }}
+                                </p>
+                            </div>
+                            <div class="contact-actions">
+                                <a href="tel:{{ contact.phone }}" class="btn btn-sm btn-success">
+                                    <i class="fas fa-phone"></i>
+                                </a>
+                                <button class="btn btn-sm btn-outline-primary" onclick="editContact({{ contact.id }})">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-danger" onclick="deleteContact({{ contact.id }})">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="empty-state">
+                        <i class="fas fa-phone-slash text-muted"></i>
+                        <p>No emergency contacts added yet</p>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addContactModal">
+                            <i class="fas fa-plus"></i> Add First Contact
+                        </button>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <!-- Quick Actions -->
+            <div class="content-card mb-4">
+                <h5 class="card-title">
+                    <i class="fas fa-bolt text-warning"></i>
+                    Quick Actions
+                </h5>
+                
+                <div class="quick-actions-list">
+                    <a href="{{ url_for('sos') }}" class="quick-action-item emergency">
+                        <div class="action-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="action-content">
+                            <h6>Emergency SOS</h6>
+                            <p>Quick access to emergency services</p>
+                        </div>
+                    </a>
+                    
+                    <a href="{{ url_for('education') }}" class="quick-action-item">
+                        <div class="action-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="action-content">
+                            <h6>Continue Learning</h6>
+                            <p>Resume your educational journey</p>
+                        </div>
+                    </a>
+                    
+                    <a href="{{ url_for('community') }}" class="quick-action-item">
+                        <div class="action-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="action-content">
+                            <h6>Community Forum</h6>
+                            <p>Connect with other women</p>
+                        </div>
+                    </a>
+                    
+                    <button class="quick-action-item" onclick="exportData()">
+                        <div class="action-icon">
+                            <i class="fas fa-download"></i>
+                        </div>
+                        <div class="action-content">
+                            <h6>Export Data</h6>
+                            <p>Download your data</p>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Privacy Settings -->
+            <div class="content-card mb-4">
+                <h5 class="card-title">
+                    <i class="fas fa-lock text-success"></i>
+                    Privacy & Security
+                </h5>
+                
+                <div class="privacy-settings">
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h6>Profile Visibility</h6>
+                            <p class="small text-muted">Control who can see your profile</p>
+                        </div>
+                        <div class="setting-control">
+                            <select class="form-select form-select-sm">
+                                <option>Community Members</option>
+                                <option>Friends Only</option>
+                                <option>Private</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h6>Location Sharing</h6>
+                            <p class="small text-muted">Allow location access for safety features</p>
+                        </div>
+                        <div class="setting-control">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="locationSharing" checked>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h6>Emergency Auto-Send</h6>
+                            <p class="small text-muted">Automatically send location in emergency</p>
+                        </div>
+                        <div class="setting-control">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="autoSend" checked>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h6>Push Notifications</h6>
+                            <p class="small text-muted">Receive important updates and alerts</p>
+                        </div>
+                        <div class="setting-control">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="notifications" checked>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-3">
+                    <button class="btn btn-sm btn-outline-primary w-100" onclick="changePassword()">
+                        <i class="fas fa-key"></i> Change Password
+                    </button>
+                </div>
+            </div>
+
+            <!-- Account Actions -->
+            <div class="content-card">
+                <h5 class="card-title">
+                    <i class="fas fa-cog text-secondary"></i>
+                    Account Settings
+                </h5>
+                
+                <div class="account-actions">
+                    <button class="btn btn-outline-info btn-sm w-100 mb-2" onclick="downloadData()">
+                        <i class="fas fa-download"></i> Download My Data
+                    </button>
+                    
+                    <button class="btn btn-outline-warning btn-sm w-100 mb-2" onclick="deactivateAccount()">
+                        <i class="fas fa-pause"></i> Deactivate Account
+                    </button>
+                    
+                    <button class="btn btn-outline-danger btn-sm w-100" onclick="deleteAccount()">
+                        <i class="fas fa-trash"></i> Delete Account
+                    </button>
+                </div>
+                
+                <div class="mt-3 pt-3 border-top">
+                    <small class="text-muted">
+                        <i class="fas fa-info-circle"></i>
+                        Your data is protected according to our Privacy Policy and GDPR guidelines.
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Profile Modal -->
+<div class="modal fade" id="editProfileModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-edit text-primary"></i>
+                    Edit Profile
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="POST" action="{{ url_for('update_profile') }}">
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Age</label>
+                            <input type="number" name="age" class="form-control" value="{{ current_user.age or '' }}" min="13" max="120">
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label class="form-label">District</label>
+                            <select name="district" class="form-select">
+                                <option value="">Select District</option>
+                                <!-- Maharashtra Districts -->
+                                <optgroup label="Konkan Division">
+                                    <option value="Mumbai City" {{ 'selected' if current_user.district == 'Mumbai City' }}>Mumbai City</option>
+                                    <option value="Mumbai Suburban" {{ 'selected' if current_user.district == 'Mumbai Suburban' }}>Mumbai Suburban</option>
+                                    <option value="Thane" {{ 'selected' if current_user.district == 'Thane' }}>Thane</option>
+                                    <option value="Palghar" {{ 'selected' if current_user.district == 'Palghar' }}>Palghar</option>
+                                    <option value="Raigad" {{ 'selected' if current_user.district == 'Raigad' }}>Raigad</option>
+                                    <option value="Ratnagiri" {{ 'selected' if current_user.district == 'Ratnagiri' }}>Ratnagiri</option>
+                                    <option value="Sindhudurg" {{ 'selected' if current_user.district == 'Sindhudurg' }}>Sindhudurg</option>
+                                </optgroup>
+                                <optgroup label="Pune Division">
+                                    <option value="Pune" {{ 'selected' if current_user.district == 'Pune' }}>Pune</option>
+                                    <option value="Solapur" {{ 'selected' if current_user.district == 'Solapur' }}>Solapur</option>
+                                    <option value="Satara" {{ 'selected' if current_user.district == 'Satara' }}>Satara</option>
+                                    <option value="Kolhapur" {{ 'selected' if current_user.district == 'Kolhapur' }}>Kolhapur</option>
+                                    <option value="Sangli" {{ 'selected' if current_user.district == 'Sangli' }}>Sangli</option>
+                                </optgroup>
+                                <optgroup label="Nashik Division">
+                                    <option value="Nashik" {{ 'selected' if current_user.district == 'Nashik' }}>Nashik</option>
+                                    <option value="Dhule" {{ 'selected' if current_user.district == 'Dhule' }}>Dhule</option>
+                                    <option value="Nandurbar" {{ 'selected' if current_user.district == 'Nandurbar' }}>Nandurbar</option>
+                                    <option value="Jalgaon" {{ 'selected' if current_user.district == 'Jalgaon' }}>Jalgaon</option>
+                                    <option value="Ahmednagar" {{ 'selected' if current_user.district == 'Ahmednagar' }}>Ahmednagar</option>
+                                </optgroup>
+                                <optgroup label="Aurangabad Division">
+                                    <option value="Aurangabad" {{ 'selected' if current_user.district == 'Aurangabad' }}>Aurangabad</option>
+                                    <option value="Jalna" {{ 'selected' if current_user.district == 'Jalna' }}>Jalna</option>
+                                    <option value="Beed" {{ 'selected' if current_user.district == 'Beed' }}>Beed</option>
+                                    <option value="Hingoli" {{ 'selected' if current_user.district == 'Hingoli' }}>Hingoli</option>
+                                    <option value="Parbhani" {{ 'selected' if current_user.district == 'Parbhani' }}>Parbhani</option>
+                                    <option value="Nanded" {{ 'selected' if current_user.district == 'Nanded' }}>Nanded</option>
+                                    <option value="Latur" {{ 'selected' if current_user.district == 'Latur' }}>Latur</option>
+                                    <option value="Osmanabad" {{ 'selected' if current_user.district == 'Osmanabad' }}>Osmanabad</option>
+                                </optgroup>
+                                <optgroup label="Amravati Division">
+                                    <option value="Amravati" {{ 'selected' if current_user.district == 'Amravati' }}>Amravati</option>
+                                    <option value="Akola" {{ 'selected' if current_user.district == 'Akola' }}>Akola</option>
+                                    <option value="Washim" {{ 'selected' if current_user.district == 'Washim' }}>Washim</option>
+                                    <option value="Buldhana" {{ 'selected' if current_user.district == 'Buldhana' }}>Buldhana</option>
+                                    <option value="Yavatmal" {{ 'selected' if current_user.district == 'Yavatmal' }}>Yavatmal</option>
+                                </optgroup>
+                                <optgroup label="Nagpur Division">
+                                    <option value="Nagpur" {{ 'selected' if current_user.district == 'Nagpur' }}>Nagpur</option>
+                                    <option value="Wardha" {{ 'selected' if current_user.district == 'Wardha' }}>Wardha</option>
+                                    <option value="Bhandara" {{ 'selected' if current_user.district == 'Bhandara' }}>Bhandara</option>
+                                    <option value="Gondia" {{ 'selected' if current_user.district == 'Gondia' }}>Gondia</option>
+                                    <option value="Chandrapur" {{ 'selected' if current_user.district == 'Chandrapur' }}>Chandrapur</option>
+                                    <option value="Gadchiroli" {{ 'selected' if current_user.district == 'Gadchiroli' }}>Gadchiroli</option>
+                                </optgroup>
+                            </select>
+                        </div>
+                        
+                        <div class="col-12">
+                            <label class="form-label">Phone Number</label>
+                            <input type="tel" name="phone" class="form-control" value="{{ current_user.phone or '' }}" placeholder="+91 9876543210">
+                        </div>
+                        
+                        <div class="col-12">
+                            <label class="form-label">Preferred Language</label>
+                            <select name="preferred_language" class="form-select">
+                                <option value="en" {{ 'selected' if current_user.preferred_language == 'en' }}>English</option>
+                                <option value="hi" {{ 'selected' if current_user.preferred_language == 'hi' }}>हिंदी (Hindi)</option>
+                                <option value="mr" {{ 'selected' if current_user.preferred_language == 'mr' }}>मराठी (Marathi)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Add Emergency Contact Modal -->
+<div class="modal fade" id="addContactModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-plus text-primary"></i>
+                    Add Emergency Contact
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="POST" action="{{ url_for('add_emergency_contact') }}">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Full Name *</label>
+                        <input type="text" name="name" class="form-control" required placeholder="Enter contact's full name">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Phone Number *</label>
+                        <input type="tel" name="phone" class="form-control" required placeholder="+91 9876543210">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Relationship *</label>
+                        <select name="relationship" class="form-select" required>
+                            <option value="">Select relationship</option>
+                            <option value="Mother">Mother</option>
+                            <option value="Father">Father</option>
+                            <option value="Sister">Sister</option>
+                            <option value="Brother">Brother</option>
+                            <option value="Spouse">Spouse</option>
+                            <option value="Friend">Friend</option>
+                            <option value="Colleague">Colleague</option>
+                            <option value="Neighbor">Neighbor</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="is_primary" id="isPrimary">
+                            <label class="form-check-label" for="isPrimary">
+                                Set as primary emergency contact
+                            </label>
+                        </div>
+                        <small class="text-muted">Primary contact will be notified first during emergencies</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Add Contact
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function editContact(contactId) {
+    // Placeholder for edit contact functionality
+    alert('Edit contact feature coming soon!');
+}
+
+function deleteContact(contactId) {
+    if (confirm('Are you sure you want to delete this emergency contact?')) {
+        // Placeholder for delete contact functionality
+        alert('Contact deleted successfully!');
+        location.reload();
+    }
+}
+
+function changePassword() {
+    alert('Password change feature coming soon!');
+}
+
+function exportData() {
+    alert('Data export feature coming soon!');
+}
+
+function downloadData() {
+    alert('Data download feature coming soon!');
+}
+
+function deactivateAccount() {
+    if (confirm('Are you sure you want to deactivate your account? You can reactivate it anytime by logging in.')) {
+        alert('Account deactivation feature coming soon!');
+    }
+}
+
+function deleteAccount() {
+    const confirmation = prompt('Type "DELETE" to confirm account deletion. This action cannot be undone.');
+    if (confirmation === 'DELETE') {
+        alert('Account deletion feature coming soon!');
+    }
+}
+
+// Auto-save privacy settings
+document.querySelectorAll('.privacy-settings input[type="checkbox"]').forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+        const setting = this.id;
+        const enabled = this.checked;
+        
+        // Placeholder for saving privacy settings
+        console.log(`Privacy setting ${setting} changed to ${enabled}`);
+        
+        // Show brief confirmation
+        const toast = document.createElement('div');
+        toast.textContent = 'Settings saved';
+        toast.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #28a745;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            z-index: 9999;
+            font-size: 14px;
+        `;
+        document.body.appendChild(toast);
+        
+        setTimeout(() => toast.remove(), 2000);
+    });
+});
+</script>
+{% endblock %}
